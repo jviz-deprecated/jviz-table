@@ -32,6 +32,9 @@ jviz.modules.table.prototype.data = function(data)
   //Reset the checkboxes
   this.clearCheck();
 
+  //Reset the entries
+  this.entries(this._entries.actual);
+
   //Return this
   return this;
 };
