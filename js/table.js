@@ -29,6 +29,7 @@ jviz.modules.table = function(opt)
   this._columns.order = []; //Columns order
   //this._columns.order = { key: '', order: '', active: false }; //Columns order
   this._columns.type = [ 'default', 'checkbox', 'button', 'image' ]; //Columns type
+  this._columns.length = 0; //Visible columns length
 
   //Draw info
   this._draw = {};
