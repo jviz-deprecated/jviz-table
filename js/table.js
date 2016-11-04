@@ -99,6 +99,11 @@ jviz.modules.table = function(opt)
   this._check.head = null; //Head checkbox element
   this._check.el = [];
 
+  //Entries fir each page
+  this._entries = {};
+  this._entries.actual = 10; //Actual number of entries
+  this._entries.available = [ 10, 25, 50, 100 ]; //Available number of entries
+
   //Page object
   this._page = {};
   this._page.id = this._id + '-page'; //Page container ID
@@ -107,14 +112,6 @@ jviz.modules.table = function(opt)
   this._page.end = 1; //End page
   this._page.actual = 1; //Actual page
   this._page.step = 1; //Page step
-
-  //Page rows
-  this._page.rows = {};
-  this._page.rows.number = 10; //Number or rows for each page
-  this._page.rows.number.default = 10; //Default number of rows
-  this._page.rows.available = [ 10, 25, 50, 100 ]; //Available page rowsb
-  this._page.rows.start = 0; //Row start
-  this._page.rows.end = 0; //Row end
 
   //Page buttons
   this._page.btn = {};
@@ -154,7 +151,7 @@ jviz.modules.table = function(opt)
   this._page.counter.label2 = {};
   this._page.counter.label2.id = this._page.counter.id + '-label2'; //Counter page label2 ID
   this._page.counter.label2.class = this._page.counter.class + '-label'; //Counter page label2 class
-  this._page.counter.label2.text = ' of #'; //Counter page label 2 text
+  this._page.counter.label2.text = ' of {pages}'; //Counter page label 2 text
 
   //Counter page select
   this._page.counter.input = {};
@@ -166,6 +163,9 @@ jviz.modules.table = function(opt)
 
   //Build the table
   this.build();
+
+  //Add the table events
+  this.events();
 
   //Parse and build the columns
   this.columns(this._columns.src);
