@@ -105,6 +105,18 @@ jviz.modules.table = function(opt)
   //Build the table
   this.build();
 
+  //Parse and build the columns
+  this.columns(this._columns.src);
+
+  //Get the data
+  //if(typeof this._data.ajax.url === 'string'){ return this.ajax(); }
+
+  //Parse the data
+  this.data(this._data.src);
+
+  //Draw the data
+  //return this.draw();
+
   //Return this
   return this;
 };
