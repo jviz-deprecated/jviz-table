@@ -32,7 +32,7 @@ jviz.modules.table.prototype.build = function()
   jviz.dom.append(this._page.counter.id, { _tag: 'input', type: 'number', id: this._page.counter.input.id, class: this._page.counter.input.class });
 
   //Build the page counter label 2
-  jviz.dom.append(this._page.counter.id, { tag: 'span', id: this._page.counter.label.total.id });
+  jviz.dom.append(this._page.counter.id, { _tag: 'span', id: this._page.counter.label.total.id });
 
   //Build the previous button
   jviz.dom.append(this._page.id, { id: this._page.btn.prev.id, class: this._page.btn.prev.class });
