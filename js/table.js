@@ -155,9 +155,6 @@ jviz.modules.table = function(opt)
   //Build the table
   this.build();
 
-  //Add the table events
-  this.events();
-
   //Parse and build the columns
   this.columns(this._columns.src);
 
