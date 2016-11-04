@@ -142,7 +142,7 @@ jviz.modules.table = function(opt)
   this._page.counter.label = {};
   this._page.counter.label.id = this._page.counter.id + '-label'; //Counter page label ID
   this._page.counter.label.page = { id: this._page.counter.label.id + '-', text: 'Page' }; //Label page object
-  this._page.counter.label.total = { id: this._page.counter.label.id + '-total', text: ' of {pages}' }; //Pabel total object
+  this._page.counter.label.total = { id: this._page.counter.label.id + '-total', text: 'of {pages}' }; //Pabel total object
 
   //Counter page select
   this._page.counter.input = {};
