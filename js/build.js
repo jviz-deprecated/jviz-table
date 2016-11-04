@@ -38,10 +38,10 @@ jviz.modules.table.prototype.build = function()
   jviz.dom.append(this._page.id, { id: this._page.btn.prev.id, class: this._page.btn.prev.class });
 
   //Add the page label text
-  jviz.dom.html(this._page.counter.label1.id, this._page.counter.label.page.text);
+  jviz.dom.html(this._page.counter.label.page.id, this._page.counter.label.page.text);
 
   //Add the total label text
-  jviz.dom.html(this._page.counter.label2.id, this._page.counter.label.total.text);
+  jviz.dom.html(this._page.counter.label.total.id, this._page.counter.label.total.text);
 
   //Add the previous button text
   jviz.dom.html(this._page.btn.prev.id, this._page.btn.prev.text);
