@@ -26,7 +26,7 @@ jviz.modules.table.prototype.build = function()
   jviz.dom.append(this._page.id, { id: this._page.counter.id, class: this._page.counter.class });
 
   //Build the page counter label 1
-  jviz.dom.append(this._page.counter.id, { id: this._page.counter.label1.id, class: this._page.counter.label1.class, _html: this._page.counter.label1.text });
+  jviz.dom.append(this._page.counter.id, { id: this._page.counter.label1.id, class: this._page.counter.label1.class });
 
   //Build the page counter input
   jviz.dom.append(this._page.counter.id, { _tag: 'input', type: 'number', id: this._page.counter.input.id, class: this._page.counter.input.class });
@@ -48,9 +48,6 @@ jviz.modules.table.prototype.build = function()
 
   //Add the next button text
   jviz.dom.html(this._page.btn.next.id, this._page.btn.next.text);
-
-  //Set the table height
-  this.height(this._height);
 
   //Continue
   return this;
