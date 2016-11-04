@@ -26,7 +26,7 @@ jviz.modules.table.prototype.page = function(n)
   jviz.dom.val(this._page.counter.input.id, this._page.actual);
 
   //Get the entries text
-  var entries = this._page.entries.text.replace('{start}', this._data.start + 1).replace('{end}', this._data.end + 1);
+  var entries = this._page.entries.text.replace('{start}', this._draw.start + 1).replace('{end}', this._draw.end + 1);
 
   //Replace the total number of entries
   entries = entries.replace('{total}', this._data.length);
