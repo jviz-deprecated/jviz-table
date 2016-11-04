@@ -8,7 +8,7 @@ jviz.modules.table.prototype.draw = function()
   if(this._data.length === 0){ return this; }
 
   //Check the columns
-  //if(this._columns.length === 0){ return this; }
+  if(this._columns.length === 0){ return this; }
 
   //Max size
   var max_size = this._data.length - 1;
