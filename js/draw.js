@@ -1,23 +1,23 @@
 //Draw the table
-jviz.modules.table.prototype.draw = function(subset)
+jviz.modules.table.prototype.draw = function()
 {
-  //Check the subset
-  if(typeof subset === 'undefined'){ var subset = {}; }
-
   //Reset the body
   jviz.dom.html(this._body.id, '');
 
   //Check the data length
   if(this._data.length === 0){ return this; }
 
+  //Check the columns
+  //if(this._columns.length === 0){ return this; }
+
   //Max size
   var max_size = this._data.length - 1;
 
-  //Parse the subset start point
-  this._draw.start = (typeof subset.start === 'undefined') ? 0 : Math.max(0, parseInt(subset.start));
+  //Get the start row
+  this._draw.start = Math.max(0, (this._page.actual - 1) * this._page.rows.number);
 
-  //Parse the subset end point
-  this._draw.end = (typeof subset.end === 'undefined') ? max_size : Math.min(max_size, parseInt(subset.end));
+  //Get the end row
+  this._draw.end = Math.min(max_size, this._page.actual * this._page.rows.number - 1);
 
   //Reset the checked element
   this._check.el = [];
