@@ -14,7 +14,10 @@ jviz.modules.table.prototype.entries = function(n)
   this._entries.actual = n;
 
   //Calculate the number of pages
-  this._page.end = Math.floor(this._data.length / this._entries.actual) + 1;
+  this._page.end = this._data.length / this._entries.actual;
+
+  //Parse the number of pages
+  this._page.end = (Math.floor(this._page.end) === this._page.end) ? this._page.end : Math.floor(this._page.end) + 1;
 
   //Open the first page
   this.page(1);
