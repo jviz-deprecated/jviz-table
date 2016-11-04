@@ -13,9 +13,6 @@ jviz.modules.table = function(opt)
   //Check the parent div
   this._parent = (typeof opt.parent === 'undefined') ? 'body' : opt.parent;
 
-  //Save the table height
-  this._height = (typeof opt.height === 'undefined') ? -1 : opt.height;
-
   //Data object
   this._data = {};
   this._data.src = (typeof opt.data === 'undefined') ? [] : opt.data; //Source data
