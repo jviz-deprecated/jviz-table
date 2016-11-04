@@ -14,10 +14,10 @@ jviz.modules.table.prototype.draw = function()
   var max_size = this._data.length - 1;
 
   //Get the start row
-  this._draw.start = Math.max(0, (this._page.actual - 1) * this._page.rows.number);
+  this._draw.start = Math.max(0, (this._page.actual - 1) * this._entries.actual);
 
   //Get the end row
-  this._draw.end = Math.min(max_size, this._page.actual * this._page.rows.number - 1);
+  this._draw.end = Math.min(max_size, this._page.actual * this._entries.actual - 1);
 
   //Reset the checked element
   this._check.el = [];
