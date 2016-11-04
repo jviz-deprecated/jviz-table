@@ -10,6 +10,9 @@ jviz.modules.table.prototype.columns = function(list)
   //Save the list
   this._columns.src = this.parseColumns(list);
 
+  //Reset the columns length
+  this._columns.length = 0;
+
   //Reset the checkboxes enabled
   this._check.enabled = false;
 
@@ -33,6 +36,9 @@ jviz.modules.table.prototype.columns = function(list)
 
     //Add the cell
     jviz.dom.append(this._head.row.id, { id: cell_id, class: cell_class });
+
+    //Increment the columns counter
+    this._columns.length = this._columns.length + 1;
 
     //Check for checkbox column
     if(cell.type === 'checkbox')
