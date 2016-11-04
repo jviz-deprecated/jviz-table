@@ -99,6 +99,68 @@ jviz.modules.table = function(opt)
   this._check.head = null; //Head checkbox element
   this._check.el = [];
 
+  //Page object
+  this._page = {};
+  this._page.id = this._id + '-page'; //Page container ID
+  this._page.class = this._class + '-page'; //Page container class
+  this._page.start = 1; //Start page
+  this._page.end = 1; //End page
+  this._page.actual = 1; //Actual page
+  this._page.step = 1; //Page step
+
+  //Page rows
+  this._page.rows = {};
+  this._page.rows.number = 10; //Number or rows for each page
+  this._page.rows.number.default = 10; //Default number of rows
+  this._page.rows.available = [ 10, 25, 50, 100 ]; //Available page rowsb
+  this._page.rows.start = 0; //Row start
+  this._page.rows.end = 0; //Row end
+
+  //Page buttons
+  this._page.btn = {};
+  this._page.btn.id = this._page.id + '-btn'; //Page button ID
+  this._page.btn.class = this._page.class + '-btn'; //Page button class
+
+  //Page button previous
+  this._page.btn.prev = {};
+  this._page.btn.prev.id = this._page.btn.id + '-prev'; //Page button previous ID
+  this._page.btn.prev.class = this._page.btn.class; //Page button previous Class
+  this._page.btn.prev.text = 'Prev'; //Page button previous text
+
+  //Page button next
+  this._page.btn.next = {};
+  this._page.btn.next.id = this._page.btn.id + '-next'; //Page button next ID
+  this._page.btn.next.class = this._page.btn.class; //Page button next class
+  this._page.btn.next.text = 'Next'; //Page button next text
+
+  //Page entries
+  this._page.entries = {};
+  this._page.entries.id = this._page.id + '-entries'; //Page entries ID
+  this._page.entries.class = this._page.class + '-entries'; //Page entries class
+  this._page.entries.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{total}</b> entries'; //Page entries text
+
+  //Counter page
+  this._page.counter = {};
+  this._page.counter.id = this._page.id + '-counter'; //Counter page ID
+  this._page.counter.class = this._page.class + '-counter'; //Counter page class
+
+  //Counter page label 2
+  this._page.counter.label1 = {};
+  this._page.counter.label1.id = this._page.counter.id + '-label1'; //Counter page label2 ID
+  this._page.counter.label1.class = this._page.counter.class + '-label'; //Counter page label class
+  this._page.counter.label1.text = 'Page '; //Counter page label1 text
+
+  //Counter page label 2
+  this._page.counter.label2 = {};
+  this._page.counter.label2.id = this._page.counter.id + '-label2'; //Counter page label2 ID
+  this._page.counter.label2.class = this._page.counter.class + '-label'; //Counter page label2 class
+  this._page.counter.label2.text = ' of #'; //Counter page label 2 text
+
+  //Counter page select
+  this._page.counter.input = {};
+  this._page.counter.input.id = this._page.counter.id + '-input'; //Input page ID
+  this._page.counter.input.class = this._page.counter.class + '-input'; //Input page class
+
   //Build the events
   this._events = new jviz.commons.events();
 
