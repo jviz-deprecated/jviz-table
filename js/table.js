@@ -26,8 +26,8 @@ jviz.modules.table = function(opt)
   //Columns
   this._columns = {};
   this._columns.src = (typeof opt.columns === 'undefined') ? [] : opt.columns;
-  this._columns.order = []; //Columns order
-  //this._columns.order = { key: '', order: '', active: false }; //Columns order
+  //this._columns.order = []; //Columns order
+  this._columns.order = { key: '', order: '', active: false }; //Columns order
   this._columns.type = [ 'default', 'checkbox', 'button', 'image' ]; //Columns type
 
   //Draw info
@@ -138,17 +138,11 @@ jviz.modules.table = function(opt)
   this._page.counter.id = this._page.id + '-counter'; //Counter page ID
   this._page.counter.class = this._page.class + '-counter'; //Counter page class
 
-  //Counter page label 2
-  this._page.counter.label1 = {};
-  this._page.counter.label1.id = this._page.counter.id + '-label1'; //Counter page label2 ID
-  this._page.counter.label1.class = this._page.counter.class + '-label'; //Counter page label class
-  this._page.counter.label1.text = 'Page '; //Counter page label1 text
-
-  //Counter page label 2
-  this._page.counter.label2 = {};
-  this._page.counter.label2.id = this._page.counter.id + '-label2'; //Counter page label2 ID
-  this._page.counter.label2.class = this._page.counter.class + '-label'; //Counter page label2 class
-  this._page.counter.label2.text = ' of {pages}'; //Counter page label 2 text
+  //Counter page labels
+  this._page.counter.label = {};
+  this._page.counter.label.id = this._page.counter.id + '-label'; //Counter page label ID
+  this._page.counter.label.page = { id: this._page.counter.label.id + '-', text: 'Page' }; //Label page object
+  this._page.counter.label.total = { id: this._page.counter.label.id + '-total', text: ' of { pages}' }; //Pabel total object
 
   //Counter page select
   this._page.counter.input = {};
