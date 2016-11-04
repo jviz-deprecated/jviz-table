@@ -1,0 +1,121 @@
+//Import jviz
+@import "{JVIZ_MODULES}jviz/scss/all";
+
+//Jviz tables main class
+.jviz-modules-table
+{
+  //Style
+  display: block; width: 100%; overflow-x: auto; overflow-y: auto;
+
+  //Checkbox
+  &-checkbox { @include jvizComponentsCheckbox; margin: { top: 0px; bottom: 0px; left: 5px; right: 5px; } }
+
+  //Table style
+  &-table
+  {
+    //Style
+    display: table; min-width: 100%;
+
+    //Table style
+    table-layout: auto;
+
+    //Text
+    @include jvizFont; color: $jvizNavy;
+
+    //Border
+    border: { collapse: collapse; width: 0px; }
+  }
+
+  //Head class
+  &-head
+  {
+    //Style
+    display: table-header-group; width: 100%; position: relative; height: 30px;
+
+    //Text
+    font-weight: bold;
+
+    //Background
+    background-color: $jvizGrey2;
+
+    //Row
+    &-row { display: table-row; transition: all 0.3s; }
+
+    //Cell
+    &-cell
+    {
+      //Stype
+      display: table-cell; transition: all 0.3s;
+
+      //Padding
+      padding: { left: 10px; right: 25px; top: 10px; bottom: 10px; }
+
+      //Cursor
+      cursor: pointer;
+
+      //First child
+      &:first-child { border-top-left-radius: 5px !important; }
+
+      //Last child
+      &:last-child { border-top-right-radius: 5px !important; }
+
+      //Orderable cell
+      &-orderable
+      {
+        //Background
+        background-size: 15px 30px; background-position: center right; background-repeat: no-repeat;
+
+        //No order
+        &-none { background-image: url('./img/tab_order_none.svg'); }
+
+        //Asc order
+        &-asc { background-image: url('./img/tab_order_asc.svg'); }
+
+        //Desc order
+        &-desc { background-image: url('./img/tab_order_desc.svg'); }
+      }
+
+      //Checkbox cell
+      &-check { width: 26px; padding: { right: 10px !important; } }
+    }
+  }
+
+  //Body class
+  &-body
+  {
+    //Style
+    display: table-row-group;
+
+    //Row
+    &-row
+    {
+      //Style
+      display: table-row; transition: all 0.3s;
+
+      //Even rows
+      &:nth-child(even) { background-color: $jvizGrey3; }
+
+      //Odd rows
+      &:nth-child(odd) { background-color: $jvizGrey4; }
+    }
+
+    //Cell
+    &-cell
+    {
+      //Style
+      display: table-cell; transition: all 0.3s;
+
+      //Padding
+      padding: { left: 10px; right: 10px; top: 10px; bottom: 10px; }
+
+      //Checkbox cell
+      &-cell { }
+    }
+
+    //Body last row first cell
+    &-row:last-child &-cell:first-child { border-bottom-left-radius: 5px; }
+
+    //Body last row last cell
+    &-row:last-child &-cell:last-child { border-bottom-right-radius: 5px; }
+  }
+}
