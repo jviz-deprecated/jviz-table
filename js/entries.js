@@ -4,14 +4,17 @@ jviz.modules.table.prototype.entries = function(n)
   //Check for undefined
   if(typeof n === 'undefined'){ return this._entries.actual; }
 
-  //Save the number
-  this._entries.actual = parseInt(n);
+  //Parse the number
+  n = parseInt(n);
 
-  //Check the number
-  if(this._entries.actual <= 0){ this._entries.actual = this._entries.actual.default; }
+  //Check the number value
+  if(n <= 0){ return jviz.console.error('Page entries must be a positive number', this); }
+
+  //Save the number
+  this._entries.actual = n;
 
   //Calculate the number of pages
-  this._page.end = Math.floor(this._table.el._data.length / this._entries.actual) + 1;
+  this._page.end = Math.floor(this._data.length / this._entries.actual) + 1;
 
   //Open the first page
   this.page(1);
