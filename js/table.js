@@ -13,6 +13,11 @@ jviz.modules.table = function(opt)
   //Check the parent div
   this._parent = (typeof opt.parent === 'undefined') ? 'body' : opt.parent;
 
+  //Table main
+  this._main = {};
+  this._main.id = this._id + '-main'; //Table main ID
+  this._main.class = this._class + '-main'; //Table main class
+
   //Data object
   this._data = {};
   this._data.src = (typeof opt.data === 'undefined') ? [] : opt.data; //Source data
