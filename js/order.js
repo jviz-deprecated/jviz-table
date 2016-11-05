@@ -1,30 +1,58 @@
 //Order the data
-jviz.modules.table.prototype.order = function(columns)
+jviz.modules.table.prototype.order = function(keys)
 {
-  //Check the columns argument
-  if(typeof columns !== 'object'){ return this._columns.order; }
+  //Check the keys argument
+  if(typeof keys !== 'object'){ return this.exportOrder(); }
 
   //Check for array
-  if(Array.isArray(columns) === false){ columns = [ columns ]; }
+  if(Array.isArray(keys) === false){ keys = [ keys ]; }
 
-  //Parse the columns order
-  columns = this.parseOrder(columns);
+  //Reset the keys
+  this._order.keys = {};
+
+  //Reset the order keys length
+  this._order.length = 0;
 
   //Clear the order
   this.clearOrder();
 
-  //Check the columns length
-  if(columns.length === 0){ return this; }
-
-  //Check the order array
-  if(this._data.order.length === 0)
+  //Read the full list
+  for(var i = 0; i < keys.length; i++)
   {
-    //Clear the order
-    //this.clearOrder();
+    //Get the element
+    var el = keys[i];
 
-    //Reset the order array
-    this.resetOrder();
+    //Check the key
+    if(typeof el.key !== 'string'){ console.error('Undefined key on element ' + i); continue; }
+
+    //Check the order
+    if(typeof el.order !== 'string'){ console.error('Undefined order on element ' + i); continue; }
+
+    //Add the new key
+    this.addOrderKey(el.key, el.order);
+
+    //Get the order value
+    var value = this._order.keys[el.key].order;
+
+    //Add the order class
+    this.orderClass(el.key, this._order.available[value]);
   }
+
+  //Check the order length
+  if(this._order.length === 0){ return this; }
+
+  //Reorder the data
+  this.reorder();
+
+  //Return this
+  return this;
+};
+
+//Order again the data
+jviz.modules.table.prototype.reorder = function()
+{
+  //Get the keys to order
+  var keys = this.exportOrder();
 
   //Get the data
   var data = this._data.src;
@@ -36,14 +64,112 @@ jviz.modules.table.prototype.order = function(columns)
   this._data.order.sort(function(a, b)
   {
     //Return
-    return self.orderCompare(a, b, columns, data);
+    return self.orderCompare(a, b, keys, data);
   });
 
   //Send the event
-  this._events.emit('order', columns);
+  this._events.emit('order', keys);
 
-  //Save the columns ordered
-  this._columns.order = columns;
+  //Return this
+  return this;
+};
+
+//Exports the order object
+jviz.modules.table.prototype.exportOrder = function()
+{
+  //Initialize the list
+  var list = [];
+
+  //Read all the order keys
+  for(var key in this._order.keys)
+  {
+    //Get the element
+    var el = this._order.keys[key];
+
+    //Add the element
+    list[el.index] = { key: key, index: el.index, order: this._order.available[el.order] };
+  }
+
+  //Return the list
+  return list;
+};
+
+//Add a new order element
+jviz.modules.table.prototype.addOrderKey = function(key, order)
+{
+  //Check the order
+  if(typeof order === 'undefined'){ var order = 'asc'; }
+
+  //Parse the order value
+  order = order.toLowerCase();
+
+  //Get the order value
+  var value = (this._order.available.indexOf(order) === -1) ? 0 : this._order.available.indexOf(order);
+
+  //Add a new key to the list
+  this._order.keys[key] = { order: value, index: this._order.length };
+
+  //Increment the length
+  this._order.length = this._order.length + 1;
+
+  //Continue
+  return this;
+};
+
+//Remove an order element
+jviz.modules.table.prototype.removeOrderKey = function(key)
+{
+  //Get the index to remove
+  var index = this._order.keys[key].index;
+
+  //Remove 1 from the list
+  this._order.length = this._order.length - 1;
+
+  //Delete the element
+  delete this._order.keys[key];
+
+  //Check the length
+  if(this._order.length === 0){ return this; }
+
+  //Read all the keys
+  for(var el in this._order.keys)
+  {
+    //Check the index
+    if(this._order.keys[el].index < index){ continue; }
+
+    //Decrement the index
+    this._order.keys[el].index = this._order.keys[el].index - 1;
+  }
+
+  //Continue
+  return this;
+};
+
+//Change the order key
+jviz.modules.table.prototype.changeOrderKey = function(key, order)
+{
+  //Check the order value
+  if(order >= this._order.available.length){ order = 0; }
+
+  //Update the column class
+  this.orderClass(key, this._order.available[order]);
+
+  //Check the order
+  if(order === 'none' && typeof this._order.keys[key] !== 'undefined')
+  {
+    //Remove the key
+    return this.removeOrderKey(key);
+  }
+
+  //Check the key
+  if(typeof this._order.keys[key] === 'undefined')
+  {
+    //Add the new key
+    return this.addOrderKey(key, order);
+  }
+
+  //Update the key
+  this._order.keys[key].order = order;
 
   //Return this
   return this;
@@ -57,41 +183,38 @@ jviz.modules.table.prototype.clearOrder = function()
   this.resetOrder();
 
   //Read all the columns
-  for(var i = 0; i < this._columns.order.length; i++)
+  for(var i = 0; i < this._columns.src.length; i++)
   {
-    //Get the element
-    var el = this._columns.order[i];
-
-    //Check the index
-    if(el.index === -1){ continue; }
-
     //Get the column
-    var col = this._columns.src[el.index];
+    var el = this._columns.src[i];
 
     //Check the display
-    if(col.display === false){ continue; }
+    if(el.display === false){ continue; }
 
     //Check the type
-    if(col.type !== 'default'){ continue; }
+    if(el.type !== 'default'){ continue; }
 
     //Check for orderable
-    if(col.orderable === false){ continue; }
+    if(el.orderable === false){ continue; }
 
     //Get the column head id
-    var col_id = this._head.cell.id + el.index;
+    var col = this._head.cell.id + i;
 
     //Remove the asc class
-    jviz.dom.class.remove(col_id, this._head.cell.orderable.asc);
+    jviz.dom.class.remove(col, this._head.cell.order.asc);
 
     //Remove the desc class
-    jviz.dom.class.remove(col_id, this._head.cell.orderable.desc);
+    jviz.dom.class.remove(col, this._head.cell.order.desc);
 
     //Add the none class
-    jviz.dom.class.add(col_id, this._head.cell.orderable.none);
+    jviz.dom.class.add(col, this._head.cell.order.none);
   }
 
   //Reset the columns order
-  this._columns.order = [];
+  this._order.keys = {};
+
+  //Reset the order length
+  this._order.length = 0;
 
   //Return this
   return this;
@@ -107,145 +230,99 @@ jviz.modules.table.prototype.resetOrder = function()
   return this;
 };
 
-//Change the order of a column
-jviz.modules.table.prototype.orderChange = function(index)
-{
-  //Initialize the order index
-  var col = -1;
-
-  //Find the column
-  for(var i = 0; i < this._columns.order.length; i++)
-  {
-    //Check the order column index
-    if(this._columns.order[i].index !== index){ continue; }
-
-    //Save the order column index
-    col = i;
-
-    //Exit
-    break;
-  }
-
-  //Check the order index
-  if(col === -1)
-  {
-    //Reset the orders
-    this.clearOrder();
-
-    //Add the new column
-    this._columns.order.push({ key: this.columnKey(index), order: 'asc', index: index });
-  }
-  else
-  {
-    //Update the key
-    this._columns.order[col].order = (this._columns.order[col].order === 'asc') ? 'desc' : 'asc';
-  }
-
-  //Order the table
-  this.order(this._columns.order).draw({ start: this._draw.start, end: this._draw.end });
-
-  //Apply the order class
-  this.orderClass(index);
-
-  //Exit
-  return this;
-};
-
 //Add the order class to a column
-jviz.modules.table.prototype.orderClass = function(index)
+jviz.modules.table.prototype.orderClass = function(key, order)
 {
-  //Check if column is visible
-  if(this._columns.src[index].display === false){ return this; }
+  //Check the order
+  if(typeof order === 'undefined'){ var order = 'none'; }
 
-  //Check if column is orderable
-  if(this._columns.src[index].orderable === false){ return this; }
+  //Get the column
+  var col_index = this.columnIndex(key);
 
-  //Check if column is a checkbox
-  if(this._columns.src[index].type !== 'default'){ return this; }
+  //Check for undefined column
+  if(col_index === -1){ return this; }
 
-  //Get the column head index
-  var col_id = this._head.cell.id + index;
+  //Get the column element
+  var col = this._columns.src[col_index];
 
-  //Remove the none class
-  jviz.dom.class.remove(col_id, this._head.cell.orderable.none);
+  //Check the column
+  if(col.display === false || col.orderable === false || col.type !== 'default'){ return this; }
 
-  //Remove the asc class
-  jviz.dom.class.remove(col_id, this._head.cell.orderable.asc);
+  //Get the column head ID
+  var col_id = this._head.cell.id + col_index;
 
-  //Remove the desc order
-  jviz.dom.class.remove(col_id, this._head.cell.orderable.desc);
+  //Check the none order
+  (order === 'none') ? jviz.dom.class.add(col_id, this._head.cell.order.none) : jviz.dom.class.remove(col_id, this._head.cell.order.none);
 
-  //Initialize the none order class
-  var col_class = this._head.cell.orderable.none;
+  //Check the asc order
+  (order === 'asc') ? jviz.dom.class.add(col_id, this._head.cell.order.asc) : jviz.dom.class.remove(col_id, this._head.cell.order.asc);
 
-  //Find the column
-  for(var i = 0; i < this._columns.order.length; i++)
-  {
-    //Get the column
-    var col = this._columns.order[i];
-
-    //Check the column index
-    if(col.index !== index){ continue; }
-
-    //Get the class
-    col_class = (col.order === 'desc') ? this._head.cell.orderable.desc : this._head.cell.orderable.asc;
-
-    //Exit
-    break;
-  }
-
-  //Add the none order
-  jviz.dom.class.add(col_id, col_class);
+  //Check the desc order
+  (order === 'desc') ? jviz.dom.class.add(col_id, this._head.cell.order.desc) : jviz.dom.class.remove(col_id, this._head.cell.order.desc);
 
   //Continue
   return this;
 };
 
-//Parse the order list
-jviz.modules.table.prototype.parseOrder = function(list)
+//Order event
+jviz.modules.table.prototype.orderEvent = function(key, shift)
 {
-  //Save this
-  var self = this;
-
-  //Parse the list
-  list = list.filter(function(el, index)
+  //Check for empty order object
+  if(this._order.length === 0)
   {
-    //Check the key
-    if(typeof el.key !== 'string'){ console.error('Undefined key on element ' + index); return false; }
+    //Add the order key
+    this.addOrderKey(key, 'asc');
+  }
 
-    //Check the order
-    if(typeof el.order !== 'string'){ console.error('Undefined order on element ' + index); return false; }
+  //Check for the same order column
+  else if(this._order.length === 1 && typeof this._order.keys[key] !== 'undefined')
+  {
+    //Change the order
+    this.changeOrderKey(key, this._order.keys[key].order + 1);
+  }
 
-    //Check the column index
-    if(typeof el.index === 'undefined'){ el.index = self.columnIndex(el.key); }
+  //Check for shift key pressed
+  else if(shift === true)
+  {
+    //Add this key or update it
+    (typeof this._order.keys[key] === 'undefined') ? this.addOrderKey(key, 'asc') : this.changeOrderKey(key, this._order.keys[key].order + 1);
+  }
+  else
+  {
+    //Check the new order
+    var order2 = (typeof this._order.keys[key] === 'undefined') ? 0 : this._order.keys[key].order;
 
-    //Parse the order value
-    el.order = el.order.toLowerCase();
+    //Remove all the order elements
+    this.clearOrder();
 
-    //Check the order value
-    if(['asc', 'desc'].indexOf(el.order) === -1){ el.order = 'asc'; }
+    //Add the new order key
+    this.addOrderKey(key, this._order.available[order2]);
+  }
 
-    //Return true
-    return true;
-  });
+  //Get the actual order
+  var order = (typeof this._order.keys[key] === 'undefined') ? this._order.available.length - 1 : this._order.keys[key].order;
 
-  //Return the list
-  return list;
+  //Update the order class
+  this.orderClass(key, this._order.available[order]);
+
+  //Reorder the data
+  this.reorder();
+
+  //Draw the data
+  this.draw();
 };
 
 //Function for compare two elements
-jviz.modules.table.prototype.orderCompare = function(left, right, columns, data)
+jviz.modules.table.prototype.orderCompare = function(left, right, keys, data)
 {
-  //Compare all
-  //for(var key in columns)
-  for(var i = 0; i < columns.length; i++)
+  //Compare all keys
+  for(var i = 0; i < keys.length; i++)
   {
     //Get the key
-    var key = columns[i].key;
+    var key = keys[i].key;
 
     //Get the order
-    //var order = columns[key].toLowerCase();
-    var order = columns[i].order;
+    var order = keys[i].order;
 
     //Check if que difference is numeric
     var numeric = !isNaN(+data[left][key] - +data[right][key]);
