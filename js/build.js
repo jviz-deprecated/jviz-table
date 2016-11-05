@@ -56,10 +56,10 @@ jviz.modules.table.prototype.build = function()
   jviz.dom.on(this._page.counter.input.id, 'change', function(){ return self.pageChange(); });
 
   //Add the next button event
-  jviz.dom.on(this._page.btn.next.id, 'click', function(){ return self.pageNext(); });
+  jviz.dom.on(this._page.btn.next.id, 'click', function(){ return self.pageClickNext(); });
 
   //Add the previous button event
-  jviz.dom.on(this._page.btn.prev.id, 'click', function(){ return self.pagePrev(); });
+  jviz.dom.on(this._page.btn.prev.id, 'click', function(){ return self.pageClickPrev(); });
 
   //Continue
   return this;
