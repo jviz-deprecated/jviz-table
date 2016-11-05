@@ -37,3 +37,9 @@ jviz.modules.table.prototype.entries = function(n)
   //Continue
   return this;
 };
+
+//Change the number of entries
+jviz.modules.table.prototype.entriesChange = function()
+{
+
+};
