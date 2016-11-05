@@ -60,10 +60,10 @@ jviz.modules.table.prototype.columns = function(list)
     if(cell.orderable === true)
     {
       //Add the base class
-      jviz.dom.class.add(cell_id, this._head.cell.orderable.class);
+      jviz.dom.class.add(cell_id, this._head.cell.order.class);
 
       //Add the actual order class
-      this.orderClass(i);
+      this.orderClass(cell.key);
     }
 
     //Default, add the cell title
@@ -89,14 +89,14 @@ jviz.modules.table.prototype.columns = function(list)
     if(cell.orderable === true)
     {
       //Add the order change event
-      jviz.dom.on(id, 'click', function(){ return self.orderChange(index); });
+      jviz.dom.on(id, 'click', function(e){ return self.orderEvent(cell.key, e.shiftKey); });
 
       //Continue
       return true;
     }
 
     //Add the event for this column
-    jviz.dom.on(id, 'click', function(){ return self.columnsClick(index); });
+    jviz.dom.on(id, 'click', function(e){ return self.columnsClick(index, e.shiftKey); });
 
     //Continue
     return true;
@@ -114,13 +114,13 @@ jviz.modules.table.prototype.columns = function(list)
 };
 
 //Column head click
-jviz.modules.table.prototype.columnsClick = function(index)
+jviz.modules.table.prototype.columnsClick = function(index, shift)
 {
   //Show in console
   console.log('Clicked on head. Column ' + index);
 
   //Send the event
-  this._events.emit('click:head', this._columns.src[index], index);
+  this._events.emit('click:head', this._columns.src[index], index, shift);
 };
 
 //Parse a columns list
