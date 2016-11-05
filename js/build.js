@@ -4,8 +4,11 @@ jviz.modules.table.prototype.build = function()
   //Append the table container
   jviz.dom.append(this._parent, { id: this._id, class: this._class });
 
+  //Append the table container
+  jviz.dom.append(this._id, { id: this._main.id, class: this._main.class });
+
   //Append the table
-  jviz.dom.append(this._id, { id: this._table.id, class: this._table.class });
+  jviz.dom.append(this._main.id, { id: this._table.id, class: this._table.class });
 
   //Append the table head
   jviz.dom.append(this._table.id, { id: this._head.id, class: this._head.class });
