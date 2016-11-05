@@ -35,6 +35,9 @@ jviz.modules.table.prototype.data = function(data)
   //Reset the entries
   this.entries(this._entries.actual);
 
+  //Draw the data
+  this.draw();
+
   //Return this
   return this;
 };
