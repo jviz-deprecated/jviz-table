@@ -118,6 +118,9 @@ jviz.modules.table.prototype.draw = function()
   //Emit the event
   this._events.emit('draw', this._draw.start, this._draw.end);
 
+  //Update the page info
+  this.pageInfo();
+
   //Return this
   return this;
 };
