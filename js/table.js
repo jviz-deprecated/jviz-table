@@ -115,6 +115,7 @@ jviz.modules.table = function(opt)
   this._page.end = 1; //End page
   this._page.actual = 1; //Actual page
   this._page.step = 1; //Page step
+  this._page.visible = true; //Page controls is visible
 
   //Page buttons
   this._page.btn = {};
