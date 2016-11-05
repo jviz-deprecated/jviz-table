@@ -26,10 +26,15 @@ jviz.modules.table = function(opt)
   //Columns
   this._columns = {};
   this._columns.src = (typeof opt.columns === 'undefined') ? [] : opt.columns;
-  this._columns.order = []; //Columns order
-  //this._columns.order = { key: '', order: '', active: false }; //Columns order
+  this._columns.order = {}; //Columns order
   this._columns.type = [ 'default', 'checkbox', 'button', 'image' ]; //Columns type
   this._columns.length = 0; //Visible columns length
+
+  //Order
+  this._order = {};
+  this._order.keys = {}; //Order keys
+  this._order.length = 0; //Order length
+  this._order.available = [ 'asc', 'desc', 'none' ]; //Available orders
 
   //Draw info
   this._draw = {};
@@ -58,11 +63,11 @@ jviz.modules.table = function(opt)
   this._head.cell.class = this._head.class + '-cell'; //Table head cell class
 
   //Orderable head cell
-  this._head.cell.orderable = {};
-  this._head.cell.orderable.class = this._head.cell.class + '-orderable'; //Orderable class
-  this._head.cell.orderable.none = this._head.cell.orderable.class + '-none'; //Orderable none class
-  this._head.cell.orderable.asc = this._head.cell.orderable.class + '-asc'; //Orderable asc class
-  this._head.cell.orderable.desc = this._head.cell.orderable.class + '-desc'; //Orderable desc class
+  this._head.cell.order = {};
+  this._head.cell.order.class = this._head.cell.class + '-orderable'; //Orderable class
+  this._head.cell.order.none = this._head.cell.order.class + '-none'; //Orderable none class
+  this._head.cell.order.asc = this._head.cell.order.class + '-asc'; //Orderable asc class
+  this._head.cell.order.desc = this._head.cell.order.class + '-desc'; //Orderable desc class
 
   //Head check
   this._head.cell.check = {};
