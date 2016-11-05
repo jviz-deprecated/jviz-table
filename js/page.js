@@ -19,21 +19,6 @@ jviz.modules.table.prototype.page = function(n)
   //Update the actual page
   this._page.actual = n;
 
-  //Draw the data
-  this.draw();
-
-  //Update the actual page counter
-  jviz.dom.val(this._page.counter.input.id, this._page.actual);
-
-  //Get the entries text
-  var entries = this._page.entries.text.replace('{start}', this._draw.start + 1).replace('{end}', this._draw.end + 1);
-
-  //Replace the total number of entries
-  entries = entries.replace('{total}', this._data.length);
-
-  //Display the entries text
-  jviz.dom.html(this._page.entries.id, entries);
-
   //Continue
   return this;
 };
@@ -73,5 +58,41 @@ jviz.modules.table.prototype.pageChange = function()
   var page = jviz.dom.val(this._page.counter.input.id);
 
   //Open the page
-  return this.page(page);
+  this.page(page).draw();
+};
+
+//Click on page next button
+jviz.modules.table.prototype.pageClickNext = function()
+{
+  //Next page
+  this.pageNext().draw();
+};
+
+//CLick on the page prev button
+jviz.modules.table.prototype.pageClickPrev = function()
+{
+  //Prev page
+  this.pagePrev().draw();
+};
+
+//Update the page info
+jviz.modules.table.prototype.pageInfo = function()
+{
+  //Check if the page controls is visible
+  if(this._page.visible === false){ return this; }
+
+  //Update the actual page counter
+  jviz.dom.val(this._page.counter.input.id, this._page.actual);
+
+  //Get the entries text
+  var entries = this._page.entries.text.replace('{start}', this._draw.start + 1).replace('{end}', this._draw.end + 1);
+
+  //Replace the total number of entries
+  entries = entries.replace('{total}', this._data.length);
+
+  //Display the entries text
+  jviz.dom.html(this._page.entries.id, entries);
+
+  //Continue
+  return this;
 };
