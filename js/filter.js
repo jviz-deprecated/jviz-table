@@ -31,7 +31,7 @@ jviz.modules.table.prototype.filter = function(condition)
   this.resetOrder();
 
   //Order again the data
-  this.order(this._columns.order);
+  this.reorder()
 
   //Reset the checkboxes
   //this.clearCheck();
@@ -60,7 +60,7 @@ jviz.modules.table.prototype.clearFilter = function()
   this.resetOrder();
 
   //Order again the data
-  this.order(this._columns.order);
+  this.reorder();
 
   //Return this
   return this;
