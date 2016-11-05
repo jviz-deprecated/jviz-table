@@ -5,10 +5,13 @@
 .jviz-modules-table
 {
   //Style
-  display: block; width: 100%; overflow-x: auto; overflow-y: auto;
+  display: block; width: 100%;
 
   //Checkbox
   &-checkbox { @include jvizComponentsCheckbox; margin: { top: 0px; bottom: 0px; left: 5px; right: 5px; } }
+
+  //Table container
+  &-main { display: block; width: 100%; overflow-x: auto; overflow-y: auto; }
 
   //Table style
   &-table
