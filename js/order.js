@@ -51,6 +51,9 @@ jviz.modules.table.prototype.order = function(keys)
 //Order again the data
 jviz.modules.table.prototype.reorder = function()
 {
+  //Check the order length
+  if(this._order.length === 0){ return this.clearOrder(); }
+
   //Get the keys to order
   var keys = this.exportOrder();
 
@@ -155,7 +158,7 @@ jviz.modules.table.prototype.changeOrderKey = function(key, order)
   this.orderClass(key, this._order.available[order]);
 
   //Check the order
-  if(order === 'none' && typeof this._order.keys[key] !== 'undefined')
+  if((order === this._order.available.length - 1) && typeof this._order.keys[key] !== 'undefined')
   {
     //Remove the key
     return this.removeOrderKey(key);
