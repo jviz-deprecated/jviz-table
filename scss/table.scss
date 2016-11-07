@@ -69,7 +69,7 @@
       &-orderable
       {
         //Background
-        background-size: 15px 30px; background-position: center right; background-repeat: no-repeat;
+        background-size: 15px 30px; background-position: center right 5px; background-repeat: no-repeat;
 
         //No order
         &-none { background-image: url('./img/tab_order_none.svg'); }
