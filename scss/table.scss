@@ -101,8 +101,14 @@
       //Even rows
       &:nth-child(even) { background-color: $jvizGrey3; }
 
+      //Even rows hover
+      &:nth-child(even):hover { background-color: rgba($jvizGrey, 0.9); }
+
       //Odd rows
       &:nth-child(odd) { background-color: $jvizGrey4; }
+
+      //Odd rows hover
+      &:nth-child(odd):hover { background-color: rgba($jvizGrey, 0.9); }
     }
 
     //Cell
