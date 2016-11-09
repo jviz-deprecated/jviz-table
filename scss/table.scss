@@ -60,7 +60,10 @@
       &-title
       {
         //Style
-        display: block; float: left; height: 20px; width: calc(100% - 40px);
+        display: block; float: left; height: 20px;
+
+        //Width
+        //width: calc(100% - 50px);
 
         //Disable user selection
         user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none;
@@ -85,10 +88,10 @@
         cursor: pointer;
 
         //Padding
-        padding: { right: 5px; }
+        padding: { right: 5px; left: 10px; }
 
         //Background
-        background-size: 15px 30px; background-position: center left; background-repeat: no-repeat;
+        background-size: 15px 30px; background-position: center center; background-repeat: no-repeat;
 
         //No order
         &-none { background-image: url('./img/tab_order_none.svg'); }
