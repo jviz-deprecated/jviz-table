@@ -46,8 +46,8 @@ jviz.modules.table.prototype.draw = function()
       //Get the cell
       var cell = this._columns.src[j];
 
-      //Check the display
-      if(cell.display === false){ continue; }
+      //Check the visible cell
+      if(cell.visible === false){ continue; }
 
       //Get the cell id
       var cell_id = this._body.cell.id + index + '_' + j;
