@@ -55,7 +55,7 @@ jviz.modules.table.prototype.pageLast = function()
 jviz.modules.table.prototype.pageChange = function()
 {
   //Get the actual value
-  var page = jviz.dom.val(this._page.counter.input.id);
+  var page = jviz.dom.val(this._page.control.input.id);
 
   //Open the page
   this.page(page).draw();
@@ -82,10 +82,10 @@ jviz.modules.table.prototype.pageUpdateEntries = function()
   if(this._page.visible === false){ return this; }
 
   //Update the actual page counter
-  jviz.dom.val(this._page.counter.input.id, this._page.actual);
+  jviz.dom.val(this._page.control.input.id, this._page.actual);
 
   //Get the entries text
-  var entries = this._page.entries.text;
+  var entries = this._page.counter.text;
 
   //Add the start entrie
   entries = entries.replace('{start}', this._draw.start + 1);
@@ -100,7 +100,7 @@ jviz.modules.table.prototype.pageUpdateEntries = function()
   entries = entries.replace('{total}', this._data.src.length);
 
   //Display the entries text
-  jviz.dom.html(this._page.entries.id, entries);
+  jviz.dom.html(this._page.counter.id, entries);
 
   //Continue
   return this;
