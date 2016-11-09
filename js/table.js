@@ -147,12 +147,12 @@ jviz.modules.table = function(opt)
   this._page.btn.next.text = 'Next'; //Page button next text
   this._page.btn.next.visible = true; //Page button next visible
 
-  //Page entries
-  this._page.entries = {};
-  this._page.entries.id = this._page.id + '-entries'; //Page entries ID
-  this._page.entries.class = this._page.class + '-entries'; //Page entries class
-  this._page.entries.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b> entries. Total <b>{total}</b> entries'; //Entries text
-  this._page.entries.visible = true; //Page entries is visible
+  //Page counter
+  this._page.counter = {};
+  this._page.counter.id = this._page.id + '-counter'; //Page counter ID
+  this._page.counter.class = this._page.class + '-counter'; //Page counter class
+  this._page.counter.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b> entries. Total <b>{total}</b> entries'; //Text
+  this._page.counter.visible = true; //Page counter is visible
 
   //Page checked counter
   this._page.checked = {};
@@ -161,22 +161,22 @@ jviz.modules.table = function(opt)
   this._page.checked.text = '<b>{check}</b> rows checked'; //Page checked text
   this._page.checked.visible = true; //Page checked is visible
 
-  //Counter page
-  this._page.counter = {};
-  this._page.counter.id = this._page.id + '-counter'; //Counter page ID
-  this._page.counter.class = this._page.class + '-counter'; //Counter page class
-  this._page.counter.visible = true; //Page counter is visible
+  //Page control
+  this._page.control = {};
+  this._page.control.id = this._page.id + '-control'; //Control page ID
+  this._page.control.class = this._page.class + '-control'; //Control page class
+  this._page.control.visible = true; //Page control is visible
 
-  //Counter page labels
-  this._page.counter.label = {};
-  this._page.counter.label.id = this._page.counter.id + '-label'; //Counter page label ID
-  this._page.counter.label.page = { id: this._page.counter.label.id + '-', text: 'Page' }; //Label page object
-  this._page.counter.label.total = { id: this._page.counter.label.id + '-total', text: 'of {pages}' }; //Pabel total object
+  //Page control labels
+  this._page.control.label = {};
+  this._page.control.label.id = this._page.control.id + '-label'; //Counter page label ID
+  this._page.control.label.page = { id: this._page.control.label.id + '-', text: 'Page' }; //Label page object
+  this._page.control.label.total = { id: this._page.control.label.id + '-total', text: 'of {pages}' }; //Pabel total object
 
-  //Counter page select
-  this._page.counter.input = {};
-  this._page.counter.input.id = this._page.counter.id + '-input'; //Input page ID
-  this._page.counter.input.class = this._page.counter.class + '-input'; //Input page class
+  //Page control select
+  this._page.control.input = {};
+  this._page.control.input.id = this._page.control.id + '-input'; //Input page ID
+  this._page.control.input.class = this._page.control.class + '-input'; //Input page class
 
   //Build the events
   this._events = new jviz.commons.events();
