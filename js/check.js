@@ -157,6 +157,13 @@ jviz.modules.table.prototype.checked = function()
   return list;
 };
 
+//Count the number of checked rows
+jviz.modules.table.prototype.countChecked = function()
+{
+  //Count the number of checked rows
+  return jviz.array.count(this._data.check, true);
+};
+
 //Clear all checks
 jviz.modules.table.prototype.clearCheck = function()
 {
