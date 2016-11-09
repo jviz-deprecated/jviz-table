@@ -23,16 +23,16 @@ jviz.modules.table.prototype.entries = function(n)
   this.page(1);
 
   //Update the number of pages
-  jviz.dom.html(this._page.counter.label.total.id, this._page.counter.label.total.text.replace('{pages}', this._page.end));
+  jviz.dom.html(this._page.control.label.total.id, this._page.control.label.total.text.replace('{pages}', this._page.end));
 
   //Update the min attribute
-  jviz.dom.attr(this._page.counter.input.id, 'min', this._page.start);
+  jviz.dom.attr(this._page.control.input.id, 'min', this._page.start);
 
   //Update the max attribute
-  jviz.dom.attr(this._page.counter.input.id, 'max', this._page.end);
+  jviz.dom.attr(this._page.control.input.id, 'max', this._page.end);
 
   //Update the step
-  jviz.dom.attr(this._page.counter.input.id, 'step', this._page.step);
+  jviz.dom.attr(this._page.control.input.id, 'step', this._page.step);
 
   //Continue
   return this;
