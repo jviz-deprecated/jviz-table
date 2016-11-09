@@ -48,8 +48,8 @@ jviz.modules.table.prototype.drawColumns = function()
     //Get the cell
     var cell = this._columns.src[i];
 
-    //Check for display
-    if(cell.display === false){ continue; }
+    //Check for visible
+    if(cell.visible === false){ continue; }
 
     //Get the cell id
     var cell_id = this._head.cell.id + i;
@@ -114,7 +114,7 @@ jviz.modules.table.prototype.drawColumns = function()
     if(cell.type === 'checkbox'){ return true; }
 
     //Check for visible column
-    if(cell.display === false){ return true; }
+    if(cell.visible === false){ return true; }
 
     //Get the cell title ID
     var title_id = self._head.cell.title.id + index;
@@ -200,7 +200,7 @@ jviz.modules.table.prototype.parseColumns = function(list)
     if(typeof el.title === 'undefined'){ el.title = el.key; }
 
     //Check the visible option
-    if(typeof el.visible === 'undefined'){ el.visible = true; } 
+    if(typeof el.visible === 'undefined'){ el.visible = true; }
 
     //Check the display
     if(typeof el.display !== 'undefined'){ el.visible = el.display; }
