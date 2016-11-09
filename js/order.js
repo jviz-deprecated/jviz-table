@@ -191,8 +191,8 @@ jviz.modules.table.prototype.clearOrder = function()
     //Get the column
     var el = this._columns.src[i];
 
-    //Check the display
-    if(el.display === false){ continue; }
+    //Check the visible
+    if(el.visible === false){ continue; }
 
     //Check the type
     if(el.type !== 'default'){ continue; }
@@ -249,7 +249,7 @@ jviz.modules.table.prototype.orderClass = function(key, order)
   var col = this._columns.src[col_index];
 
   //Check the column
-  if(col.display === false || col.orderable === false || col.type !== 'default'){ return this; }
+  if(col.visible === false || col.orderable === false || col.type !== 'default'){ return this; }
 
   //Get the column head order ID
   var col_id = this._head.cell.order.id + col_index;
