@@ -79,18 +79,29 @@ jviz.modules.table.prototype.drawColumns = function()
       continue;
     }
 
+    //Get the cell title ID
+    var title_id = this._head.cell.title.id + i;
+
+    //Get the cell title class
+    var title_class = this._head.cell.title.class;
+
+    //Build the cell title
+    jviz.dom.append(cell_id, { id: title_id, class: title_class, _html: cell.title });
+
     //Check for orderable cell
-    if(cell.orderable === true)
-    {
-      //Add the base class
-      jviz.dom.class.add(cell_id, this._head.cell.order.class);
+    if(cell.orderable === false){ continue; }
 
-      //Add the actual order class
-      this.orderClass(cell.key);
-    }
+    //Get the order element ID
+    var order_id = this._head.cell.order.id + i;
 
-    //Default, add the cell title
-    jviz.dom.html(cell_id, cell.title);
+    //Get the order element class
+    var order_class = this._head.cell.order.class;
+
+    //Add the order box
+    jviz.dom.append(cell_id, { id: order_id, class: order_class });
+    
+    //Add the actual order class
+    this.orderClass(cell.key);
   }
 
   //Save this
