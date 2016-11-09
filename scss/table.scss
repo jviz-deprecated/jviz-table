@@ -33,10 +33,7 @@
   &-head
   {
     //Style
-    display: table-header-group; width: 100%; position: relative; height: 30px;
-
-    //Text
-    font-weight: bold;
+    display: table-header-group; width: 100%; position: relative; height: 40px;
 
     //Background
     background-color: $jvizGrey2;
@@ -48,16 +45,10 @@
     &-cell
     {
       //Stype
-      display: table-cell; transition: all 0.3s;
+      display: table-cell; transition: all 0.3s; vertical-align: top;
 
       //Padding
-      padding: { left: 10px; right: 25px; top: 10px; bottom: 10px; }
-
-      //Disable user selection
-      user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none;
-
-      //Cursor
-      cursor: pointer;
+      //padding: { left: 10px; right: 25px; top: 10px; bottom: 10px; }
 
       //First child
       &:first-child { border-top-left-radius: 5px !important; }
@@ -65,11 +56,39 @@
       //Last child
       &:last-child { border-top-right-radius: 5px !important; }
 
-      //Orderable cell
-      &-orderable
+      //Cell title
+      &-title
       {
+        //Style
+        display: block; float: left; height: 20px; width: calc(100% - 20px);
+
+        //Disable user selection
+        user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none;
+
+        //Text
+        font-weight: bold; line-height: 24px;
+
+        //Cursor
+        cursor: pointer;
+
+        //Padding
+        padding: { top: 10px; bottom: 10px; left: 10px; right: 10px; }
+      }
+
+      //Order column
+      &-order
+      {
+        //Display
+        display: block; width: 15px; height: 30px; float: right;
+
+        //Cursor
+        cursor: pointer;
+
+        //Padding
+        padding: { right: 5px; }
+
         //Background
-        background-size: 15px 30px; background-position: center right 5px; background-repeat: no-repeat;
+        background-size: 15px 30px; background-position: center right; background-repeat: no-repeat;
 
         //No order
         &-none { background-image: url('./img/tab_order_none.svg'); }
@@ -81,8 +100,18 @@
         &-desc { background-image: url('./img/tab_order_desc.svg'); }
       }
 
+      //Order and title
+      &-order &-title { width: calc(100% - 40px); }
+
       //Checkbox cell
-      &-check { width: 26px; padding: { right: 10px !important; } }
+      &-check
+      {
+        //Display
+        width: 26px;
+
+        //Padding
+        padding: { right: 10px; left: 10px; top: 12px; bottom: 12px; }
+      }
     }
   }
 
