@@ -60,13 +60,13 @@
       &-title
       {
         //Style
-        display: block; float: left; height: 20px; width: calc(100% - 20px);
+        display: block; float: left; height: 20px; width: calc(100% - 40px);
 
         //Disable user selection
         user-select: none; -webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none;
 
         //Text
-        font-weight: bold; line-height: 24px;
+        font-weight: bold; line-height: 24px; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
 
         //Cursor
         cursor: pointer;
@@ -79,7 +79,7 @@
       &-order
       {
         //Display
-        display: block; width: 15px; height: 30px; float: right;
+        display: block; width: 15px; height: 40px; float: right;
 
         //Cursor
         cursor: pointer;
@@ -88,7 +88,7 @@
         padding: { right: 5px; }
 
         //Background
-        background-size: 15px 30px; background-position: center right; background-repeat: no-repeat;
+        background-size: 15px 30px; background-position: center left; background-repeat: no-repeat;
 
         //No order
         &-none { background-image: url('./img/tab_order_none.svg'); }
@@ -101,7 +101,7 @@
       }
 
       //Order and title
-      &-order ~ &-title { width: calc(100% - 40px); }
+      //&-order ~ &-title { width: calc(100% - 40px) !important; }
 
       //Checkbox cell
       &-check
