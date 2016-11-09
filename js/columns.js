@@ -4,9 +4,6 @@ jviz.modules.table.prototype.columns = function(list)
   //Check the columns list
   if(typeof list === 'undefined'){ return this._columns.src; }
 
-  //Append the head row
-  jviz.dom.html(this._head.id, { id: this._head.row.id, class: this._head.row.class });
-
   //Save the list
   this._columns.src = this.parseColumns(list);
 
@@ -16,8 +13,34 @@ jviz.modules.table.prototype.columns = function(list)
   //Reset the checkboxes enabled
   this._check.enabled = false;
 
+  //Reset the columns
+  this.columnsReset();
+
   //Check the size
   if(this._columns.src.length === 0){ return this; }
+
+  //Draw the columns
+  this.columnsDraw();
+
+  //Return this
+  return this;
+};
+
+//Reset the columns
+jviz.modules.table.prototype.columnsReset = function()
+{
+  //Append the head row
+  jviz.dom.html(this._head.id, { id: this._head.row.id, class: this._head.row.class });
+
+  //Return this
+  return this;
+}
+
+//Draw the columns
+jviz.modules.table.prototype.columnsDraw = function()
+{
+  //Reset the columns
+  this.columnsReset();
 
   //Read all the columns
   for(var i = 0; i < this._columns.src.length; i++)
