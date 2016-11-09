@@ -200,8 +200,8 @@ jviz.modules.table.prototype.clearOrder = function()
     //Check for orderable
     if(el.orderable === false){ continue; }
 
-    //Get the column head id
-    var col = this._head.cell.id + i;
+    //Get the column head order id
+    var col = this._head.cell.order.id + i;
 
     //Remove the asc class
     jviz.dom.class.remove(col, this._head.cell.order.asc);
@@ -251,8 +251,8 @@ jviz.modules.table.prototype.orderClass = function(key, order)
   //Check the column
   if(col.display === false || col.orderable === false || col.type !== 'default'){ return this; }
 
-  //Get the column head ID
-  var col_id = this._head.cell.id + col_index;
+  //Get the column head order ID
+  var col_id = this._head.cell.order.id + col_index;
 
   //Check the none order
   (order === 'none') ? jviz.dom.class.add(col_id, this._head.cell.order.none) : jviz.dom.class.remove(col_id, this._head.cell.order.none);
