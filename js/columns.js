@@ -199,8 +199,11 @@ jviz.modules.table.prototype.parseColumns = function(list)
     //Check the title
     if(typeof el.title === 'undefined'){ el.title = el.key; }
 
+    //Check the visible option
+    if(typeof el.visible === 'undefined'){ el.visible = true; } 
+
     //Check the display
-    if(typeof el.display === 'undefined'){ el.display = true; }
+    if(typeof el.display !== 'undefined'){ el.visible = el.display; }
 
     //Check the orderable attribute
     if(typeof el.orderable === 'undefined'){ el.orderable = false; }
