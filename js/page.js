@@ -76,7 +76,7 @@ jviz.modules.table.prototype.pageClickPrev = function()
 };
 
 //Update the page info
-jviz.modules.table.prototype.pageInfo = function()
+jviz.modules.table.prototype.pageUpdateEntries = function()
 {
   //Check if the page controls is visible
   if(this._page.visible === false){ return this; }
@@ -85,13 +85,44 @@ jviz.modules.table.prototype.pageInfo = function()
   jviz.dom.val(this._page.counter.input.id, this._page.actual);
 
   //Get the entries text
-  var entries = this._page.entries.text.replace('{start}', this._draw.start + 1).replace('{end}', this._draw.end + 1);
+  var entries = this._page.entries.text;
+
+  //Add the start entrie
+  entries = entries.replace('{start}', this._draw.start + 1);
+
+  //Add the end entrie
+  entries = entries.replace('{end}', this._draw.end + 1);
+
+  //Replace the actual number of entries
+  entries = entries.replace('{actual}', this._data.length);
 
   //Replace the total number of entries
-  entries = entries.replace('{total}', this._data.length);
+  entries = entries.replace('{total}', this._data.src.length);
 
   //Display the entries text
   jviz.dom.html(this._page.entries.id, entries);
+
+  //Continue
+  return this;
+};
+
+//Update the page checked counter
+jviz.modules.table.prototype.pageUpdateChecked = function()
+{
+  //Get the number of checked rows
+  var count = this.countChecked();
+
+  //Check the number
+  if(count === 0){ jviz.dom.hide(this._page.checked.id); return this; }
+
+  //Show the counter div
+  jviz.dom.show(this._page.checked.id);
+
+  //Get the text
+  var text = this._page.checked.text.replace('{check}', count);
+
+  //Add the text
+  jviz.dom.html(this._page.checked.id, text);
 
   //Continue
   return this;
