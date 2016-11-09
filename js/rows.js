@@ -39,8 +39,8 @@ jviz.modules.table.prototype.rowsEvent = function(index)
   //Read all the columns
   this._columns.src.forEach(function(col, col_id)
   {
-    //Check the column display
-    if(col.display === false){ return true; }
+    //Check the column visible option
+    if(col.visible === false){ return true; }
 
     //Check for checkbox
     if(col.type === 'checkbox'){ return true; }
