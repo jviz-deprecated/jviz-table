@@ -99,7 +99,7 @@ jviz.modules.table.prototype.drawColumns = function()
 
     //Add the order box
     jviz.dom.append(cell_id, { id: order_id, class: order_class });
-    
+
     //Add the actual order class
     this.orderClass(cell.key);
   }
@@ -113,24 +113,23 @@ jviz.modules.table.prototype.drawColumns = function()
     //Check for checkbox column
     if(cell.type === 'checkbox'){ return true; }
 
-    //Check for display
+    //Check for visible column
     if(cell.display === false){ return true; }
 
-    //Get the cell ID
-    var id = self._head.cell.id + index;
-
-    //Check for orderable
-    if(cell.orderable === true)
-    {
-      //Add the order change event
-      jviz.dom.on(id, 'click', function(e){ return self.orderEvent(cell.key, e.shiftKey); });
-
-      //Continue
-      return true;
-    }
+    //Get the cell title ID
+    var title_id = self._head.cell.title.id + index;
 
     //Add the event for this column
-    jviz.dom.on(id, 'click', function(e){ return self.clickColumns(index, e.shiftKey); });
+    jviz.dom.on(title_id, 'click', function(e){ return self.clickColumns(index, e.shiftKey); });
+
+    //Check for orderable
+    if(cell.orderable === false){ return true; }
+
+    //Get the cell order ID
+    var order_id = self._head.cell.order.id + index;
+
+    //Add the order change event
+    jviz.dom.on(order_id, 'click', function(e){ return self.orderEvent(cell.key, e.shiftKey); });
 
     //Continue
     return true;
