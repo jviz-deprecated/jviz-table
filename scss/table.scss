@@ -172,15 +172,38 @@
     //Padding
     padding: { top: 10px; bottom: 10px; }
 
-    //Page entries
+    //Page entries counter
     &-entries
     {
       //Style
-      display: inline-block; float: left;
+      display: block; float: left;
 
       //Text
-      font-size: 15px; line-height: 30px;
+      font-size: 14px; line-height: 30px;
+
+      //Padding
+      padding: { left: 0px; right: 10px; }
     }
+
+    //Page checked rows counter
+    &-checked
+    {
+      //Style
+      display: block; float: left; height: 30px;
+
+      //Text
+      font-size: 14px; font-weight: bold; color: $jvizWhite; line-height: 30px;
+
+      //Background color
+      background-color: $jvizNavy4;
+
+      //Border
+      border-radius: 5px;
+
+      //Padding
+      padding: { left: 10px; right: 10px; }
+    }
+
 
     //Page counter
     &-counter
@@ -189,7 +212,7 @@
       display: inline-block; height: 30px; float: right;
 
       //Text
-      line-height: 30px; font-size: 15px; color: $jvizNavy;
+      line-height: 30px; font-size: 14px; color: $jvizNavy;
 
       //Padding
       padding: { left: 15px; right: 15px; }
