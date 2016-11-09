@@ -14,20 +14,20 @@ jviz.modules.table.prototype.columns = function(list)
   this._check.enabled = false;
 
   //Reset the columns
-  this.columnsReset();
+  this.resetColumns();
 
   //Check the size
   if(this._columns.src.length === 0){ return this; }
 
   //Draw the columns
-  this.columnsDraw();
+  this.drawColumns();
 
   //Return this
   return this;
 };
 
 //Reset the columns
-jviz.modules.table.prototype.columnsReset = function()
+jviz.modules.table.prototype.resetColumns = function()
 {
   //Append the head row
   jviz.dom.html(this._head.id, { id: this._head.row.id, class: this._head.row.class });
@@ -37,10 +37,10 @@ jviz.modules.table.prototype.columnsReset = function()
 }
 
 //Draw the columns
-jviz.modules.table.prototype.columnsDraw = function()
+jviz.modules.table.prototype.drawColumns = function()
 {
   //Reset the columns
-  this.columnsReset();
+  this.resetColumns();
 
   //Read all the columns
   for(var i = 0; i < this._columns.src.length; i++)
@@ -119,7 +119,7 @@ jviz.modules.table.prototype.columnsDraw = function()
     }
 
     //Add the event for this column
-    jviz.dom.on(id, 'click', function(e){ return self.columnsClick(index, e.shiftKey); });
+    jviz.dom.on(id, 'click', function(e){ return self.clickColumns(index, e.shiftKey); });
 
     //Continue
     return true;
@@ -137,7 +137,7 @@ jviz.modules.table.prototype.columnsDraw = function()
 };
 
 //Column head click
-jviz.modules.table.prototype.columnsClick = function(index, shift)
+jviz.modules.table.prototype.clickColumns = function(index, shift)
 {
   //Show in console
   console.log('Clicked on head. Column ' + index);
