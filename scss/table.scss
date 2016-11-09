@@ -75,7 +75,7 @@
         padding: { top: 10px; bottom: 10px; left: 10px; right: 10px; }
       }
 
-      //Order column
+      //Cell order
       &-order
       {
         //Display
@@ -101,7 +101,7 @@
       }
 
       //Order and title
-      &-order &-title { width: calc(100% - 40px); }
+      &-order ~ &-title { width: calc(100% - 40px); }
 
       //Checkbox cell
       &-check
