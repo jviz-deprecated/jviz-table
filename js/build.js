@@ -19,11 +19,11 @@ jviz.modules.table.prototype.build = function()
   //Build the page container
   jviz.dom.append(this._id, { id: this._page.id, class: this._page.class });
 
-  //Build the page entries
-  jviz.dom.append(this._page.id, { id: this._page.entries.id, class: this._page.entries.class });
-
   //Build the page checked counter
   jviz.dom.append(this._page.id, { id: this._page.checked.id, class: this._page.checked.class });
+
+  //Build the page entries
+  jviz.dom.append(this._page.id, { id: this._page.entries.id, class: this._page.entries.class });
 
   //Build the next button
   jviz.dom.append(this._page.id, { id: this._page.btn.next.id, class: this._page.btn.next.class });
