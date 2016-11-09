@@ -70,7 +70,7 @@ jviz.modules.table = function(opt)
   //Head title
   this._head.cell.title = {};
   this._head.cell.title.id = this._head.cell.id + '-title'; //Head cell title id
-  this._head.cell.title.class = this._head.cell.class + '-title'; //Head cell title class 
+  this._head.cell.title.class = this._head.cell.class + '-title'; //Head cell title class
 
   //Orderable head cell
   this._head.cell.order = {};
@@ -138,23 +138,34 @@ jviz.modules.table = function(opt)
   this._page.btn.prev.id = this._page.btn.id + '-prev'; //Page button previous ID
   this._page.btn.prev.class = this._page.btn.class; //Page button previous Class
   this._page.btn.prev.text = 'Prev'; //Page button previous text
+  this._page.btn.visible = true; //Page button previous visible
 
   //Page button next
   this._page.btn.next = {};
   this._page.btn.next.id = this._page.btn.id + '-next'; //Page button next ID
   this._page.btn.next.class = this._page.btn.class; //Page button next class
   this._page.btn.next.text = 'Next'; //Page button next text
+  this._page.btn.next.visible = true; //Page button next visible
 
   //Page entries
   this._page.entries = {};
   this._page.entries.id = this._page.id + '-entries'; //Page entries ID
   this._page.entries.class = this._page.class + '-entries'; //Page entries class
-  this._page.entries.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{total}</b> entries'; //Page entries text
+  this._page.entries.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b> entries. Total <b>{total}</b> entries'; //Entries text
+  this._page.entries.visible = true; //Page entries is visible
+
+  //Page checked counter
+  this._page.checked = {};
+  this._page.checked.id = this._page.id + '-checked'; //Page checked ID
+  this._page.checked.class = this._page.class + '-checked'; //Page checked class
+  this._page.checked.text = '<b>{check}</b> rows checked'; //Page checked text
+  this._page.checked.visible = true; //Page checked is visible
 
   //Counter page
   this._page.counter = {};
   this._page.counter.id = this._page.id + '-counter'; //Counter page ID
   this._page.counter.class = this._page.class + '-counter'; //Counter page class
+  this._page.counter.visible = true; //Page counter is visible
 
   //Counter page labels
   this._page.counter.label = {};
