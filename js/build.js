@@ -23,31 +23,31 @@ jviz.modules.table.prototype.build = function()
   jviz.dom.append(this._page.id, { id: this._page.checked.id, class: this._page.checked.class });
 
   //Build the page entries
-  jviz.dom.append(this._page.id, { id: this._page.entries.id, class: this._page.entries.class });
+  jviz.dom.append(this._page.id, { id: this._page.counter.id, class: this._page.counter.class });
 
   //Build the next button
   jviz.dom.append(this._page.id, { id: this._page.btn.next.id, class: this._page.btn.next.class });
 
-  //Build the page counter div
-  jviz.dom.append(this._page.id, { id: this._page.counter.id, class: this._page.counter.class });
+  //Build the page control div
+  jviz.dom.append(this._page.id, { id: this._page.control.id, class: this._page.control.class });
 
-  //Build the page label
-  jviz.dom.append(this._page.counter.id, { _tag: 'span', id: this._page.counter.label.page.id });
+  //Build the page control label
+  jviz.dom.append(this._page.control.id, { _tag: 'span', id: this._page.control.label.page.id });
 
-  //Build the page counter input
-  jviz.dom.append(this._page.counter.id, { _tag: 'input', type: 'number', id: this._page.counter.input.id, class: this._page.counter.input.class });
+  //Build the page control input
+  jviz.dom.append(this._page.control.id, { _tag: 'input', type: 'number', id: this._page.control.input.id, class: this._page.control.input.class });
 
-  //Build the page counter label 2
-  jviz.dom.append(this._page.counter.id, { _tag: 'span', id: this._page.counter.label.total.id });
+  //Build the page control label
+  jviz.dom.append(this._page.control.id, { _tag: 'span', id: this._page.control.label.total.id });
 
   //Build the previous button
   jviz.dom.append(this._page.id, { id: this._page.btn.prev.id, class: this._page.btn.prev.class });
 
   //Add the page label text
-  jviz.dom.html(this._page.counter.label.page.id, this._page.counter.label.page.text);
+  jviz.dom.html(this._page.control.label.page.id, this._page.control.label.page.text);
 
   //Add the total label text
-  jviz.dom.html(this._page.counter.label.total.id, this._page.counter.label.total.text);
+  jviz.dom.html(this._page.control.label.total.id, this._page.control.label.total.text);
 
   //Add the previous button text
   jviz.dom.html(this._page.btn.prev.id, this._page.btn.prev.text);
@@ -59,7 +59,7 @@ jviz.modules.table.prototype.build = function()
   var self = this;
 
   //Page counter event
-  jviz.dom.on(this._page.counter.input.id, 'change', function(){ return self.pageChange(); });
+  jviz.dom.on(this._page.control.input.id, 'change', function(){ return self.pageChange(); });
 
   //Add the next button event
   jviz.dom.on(this._page.btn.next.id, 'click', function(){ return self.pageClickNext(); });
