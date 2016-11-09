@@ -67,9 +67,15 @@ jviz.modules.table = function(opt)
   this._head.cell.id = this._head.id + '-cell'; //Table head cell id
   this._head.cell.class = this._head.class + '-cell'; //Table head cell class
 
+  //Head title
+  this._head.cell.title = {};
+  this._head.cell.title.id = this._head.cell.id + '-title'; //Head cell title id
+  this._head.cell.title.class = this._head.cell.class + '-title'; //Head cell title class 
+
   //Orderable head cell
   this._head.cell.order = {};
-  this._head.cell.order.class = this._head.cell.class + '-orderable'; //Orderable class
+  this._head.cell.order.id = this._head.cell.id + '-order'; //Order cell ID
+  this._head.cell.order.class = this._head.cell.class + '-order'; //Orderable class
   this._head.cell.order.none = this._head.cell.order.class + '-none'; //Orderable none class
   this._head.cell.order.asc = this._head.cell.order.class + '-asc'; //Orderable asc class
   this._head.cell.order.desc = this._head.cell.order.class + '-desc'; //Orderable desc class
