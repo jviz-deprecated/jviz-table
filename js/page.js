@@ -75,55 +75,64 @@ jviz.modules.table.prototype.pageClickPrev = function()
   this.pagePrev().draw();
 };
 
-//Update the page info
-jviz.modules.table.prototype.pageUpdateEntries = function()
+//Build the paginator element
+jviz.modules.table.prototype.pageBuild = function()
 {
-  //Check if the page controls is visible
-  if(this._page.visible === false){ return this; }
+  //Build the paginator object
+  jviz.dom.append(this._control.id, { id: this._page.id, class: this._page.class });
 
-  //Update the actual page counter
-  jviz.dom.val(this._page.control.input.id, this._page.actual);
+  //Build the next button
+  jviz.dom.append(this._page.id, { id: this._page.btn.next.id, class: this._page.btn.next.class });
 
-  //Get the entries text
-  var entries = this._page.counter.text;
+  //Build the page label
+  jviz.dom.append(this._page.id, { id: this._page.label.page.id, class: this._page.label.page.class });
 
-  //Add the start entrie
-  entries = entries.replace('{start}', this._draw.start + 1);
+  //Build the page input
+  jviz.dom.append(this._page.id, { _tag: 'input', type: 'number', id: this._page.input.id, class: this._page.input.class });
 
-  //Add the end entrie
-  entries = entries.replace('{end}', this._draw.end + 1);
+  //Build the page label
+  jviz.dom.append(this._page.id, { id: this._page.label.total.id, class: this._page.label.total.class });
 
-  //Replace the actual number of entries
-  entries = entries.replace('{actual}', this._data.length);
+  //Build the previous button
+  jviz.dom.append(this._page.id, { id: this._page.btn.prev.id, class: this._page.btn.prev.class });
 
-  //Replace the total number of entries
-  entries = entries.replace('{total}', this._data.src.length);
+  //Add the page label text
+  jviz.dom.html(this._page.label.page.id, this._page.label.page.text);
 
-  //Display the entries text
-  jviz.dom.html(this._page.counter.id, entries);
+  //Add the total label text
+  jviz.dom.html(this._page.label.total.id, this._page.label.total.text);
 
-  //Continue
+  //Add the previous button text
+  jviz.dom.html(this._page.btn.prev.id, this._page.btn.prev.text);
+
+  //Add the next button text
+  jviz.dom.html(this._page.btn.next.id, this._page.btn.next.text);
+
+  //Check if the page control is visible
+  if(this._page.visible === false){ jviz.dom.hide(this._page.id); }
+
+  //Save this
+  var self = this;
+
+  //Page counter event
+  jviz.dom.on(this._page.input.id, 'change', function(){ return self.pageChange(); });
+
+  //Add the next button event
+  jviz.dom.on(this._page.btn.next.id, 'click', function(){ return self.pageClickNext(); });
+
+  //Add the previous button event
+  jviz.dom.on(this._page.btn.prev.id, 'click', function(){ return self.pageClickPrev(); });
+
+  //Return this
   return this;
 };
 
-//Update the page checked counter
-jviz.modules.table.prototype.pageUpdateChecked = function()
+//Update the page info
+jviz.modules.table.prototype.pageInfo = function()
 {
-  //Get the number of checked rows
-  var count = this.countChecked();
+  //Update the actual page counter
+  jviz.dom.val(this._page.input.id, this._page.actual);
 
-  //Check the number
-  if(count === 0){ jviz.dom.hide(this._page.checked.id); return this; }
-
-  //Show the counter div
-  jviz.dom.show(this._page.checked.id);
-
-  //Get the text
-  var text = this._page.checked.text.replace('{check}', count);
-
-  //Add the text
-  jviz.dom.html(this._page.checked.id, text);
-
-  //Continue
+  //Return this
   return this;
 };
