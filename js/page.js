@@ -55,7 +55,7 @@ jviz.modules.table.prototype.pageLast = function()
 jviz.modules.table.prototype.pageChange = function()
 {
   //Get the actual value
-  var page = jviz.dom.val(this._page.control.input.id);
+  var page = jviz.dom.val(this._page.input.id);
 
   //Open the page
   this.page(page).draw();
