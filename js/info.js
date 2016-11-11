@@ -27,7 +27,7 @@ jviz.modules.table.prototype.info = function()
     var data_filter = this._data.length;
 
     //Update the total length
-    jviz.dom.append(this._info.total.id, this._info.total.text.replace('{total}', data_src));
+    jviz.dom.html(this._info.total.id, this._info.total.text.replace('{total}', data_src));
 
     //Check for show or hide
     (data_src === data_filter) ? jviz.dom.hide(this._info.total.id) : jviz.dom.show(this._info.total.id);
