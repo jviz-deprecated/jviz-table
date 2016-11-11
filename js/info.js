@@ -56,7 +56,7 @@ jviz.modules.table.prototype.info = function()
 jviz.modules.table.prototype.infoBuild = function()
 {
   //Add the info div element
-  jviz.dom.append(this._control.id, { id: this._info.is, class: this._info.class });
+  jviz.dom.append(this._control.id, { id: this._info.id, class: this._info.class });
 
   //Add the showing element
   jviz.dom.append(this._info.id, { id: this._info.showing.id, class: this._info.showing.class });
