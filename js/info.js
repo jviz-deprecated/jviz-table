@@ -8,13 +8,13 @@ jviz.modules.table.prototype.info = function()
     var count = this.countChecked();
 
     //Get the text
-    var text = this._page.checked.text.replace('{check}', count);
+    var text = this._info.checked.text.replace('{check}', count);
 
     //Add the text
-    jviz.dom.html(this._page.checked.id, text);
+    jviz.dom.html(this._info.checked.id, text);
 
     //Check the number
-    (count === 0) ? jviz.dom.hide(this._page.checked.id) : jviz.dom.show(this._page.checked.id);
+    (count === 0) ? jviz.dom.hide(this._info.checked.id) : jviz.dom.show(this._info.checked.id);
   }
 
   //Check the total element
