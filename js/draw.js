@@ -118,11 +118,11 @@ jviz.modules.table.prototype.draw = function()
   //Emit the event
   this._events.emit('draw', this._draw.start, this._draw.end);
 
-  //Update the page entries
-  this.pageUpdateEntries();
+  //Update the table info
+  this.info();
 
-  //Update the page checked rows info
-  this.pageUpdateChecked();
+  //Update the page info
+  this.pageInfo();
 
   //Return this
   return this;
