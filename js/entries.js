@@ -38,6 +38,34 @@ jviz.modules.table.prototype.entries = function(n)
   return this;
 };
 
+//Build the page entries
+jviz.modules.table.prototype.entriesBuild = function()
+{
+  //Build the entries select
+  jviz.dom.append(this._control.id, { id: this._entries.id, class: this._entries.class });
+
+  //Build the entries label
+  jviz.dom.append(this._entries.id, { id: this._entries.label.id, class: this._entries.label.class });
+
+  //Build the entries select
+  jviz.dom.append(this._entries.id, { _tag: 'select', id: this._entries.select.id, class: this._entries.select.class });
+
+  //Add the page entries text
+  jviz.dom.html(this._entries.label.id, this._entries.label.text);
+
+  //Check if the entries element is visible
+  if(this._entries.visible === false){ jviz.dom.hide(this._entries.id); }
+
+  //Save this
+  var self = this;
+
+  //Add the change event
+  jviz.dom.on(this._entries.select.id, 'change', function(){ return self.entriesChange(); });
+
+  //Return this
+  return this;
+};
+
 //Change the number of entries
 jviz.modules.table.prototype.entriesChange = function()
 {
