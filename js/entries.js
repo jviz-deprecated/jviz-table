@@ -23,7 +23,7 @@ jviz.modules.table.prototype.entries = function(n)
   this.page(1);
 
   //Update the number of pages
-  jviz.dom.html(this._pagelabel.total.id, this._page.label.total.text.replace('{pages}', this._page.end));
+  jviz.dom.html(this._page.label.total.id, this._page.label.total.text.replace('{pages}', this._page.end));
 
   //Update the min attribute
   jviz.dom.attr(this._page.input.id, 'min', this._page.start);
