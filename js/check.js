@@ -25,7 +25,7 @@ jviz.modules.table.prototype.check = function(index, emit_event)
   }
 
   //Update the page info
-  this.pageUpdateChecked();
+  this.info();
 
   //Check to emit the event
   if(emit_event === false){ return; }
@@ -63,7 +63,7 @@ jviz.modules.table.prototype.checkAll = function(emit_event)
   this.headCheck();
 
   //Update the page info
-  this.pageUpdateChecked();
+  this.info();
 
   //Check for emit the event
   if(emit_event === false){ return; }
@@ -99,7 +99,7 @@ jviz.modules.table.prototype.uncheck = function(index, emit_event)
   }
 
   //Update the page info
-  this.pageUpdateChecked();
+  this.info();
 
   //Check the emit emit value
   if(emit_event === false){ return; }
@@ -137,7 +137,7 @@ jviz.modules.table.prototype.uncheckAll = function(emit_event)
   this.headUncheck();
 
   //Update the page info
-  this.pageUpdateChecked();
+  this.info();
 
   //Check for emit the event
   if(emit_event === false){ return; }
