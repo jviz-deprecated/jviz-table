@@ -113,10 +113,63 @@ jviz.modules.table = function(opt)
   this._check.head = null; //Head checkbox element
   this._check.el = [];
 
-  //Entries fir each page
+  //Control wrapper panel
+  this._control = {};
+  this._control.id = this._id + '-control'; //Control panel ID
+  this._control.class = this._class + '-control'; //Control panel class
+  this._control.visible = (typeof opt.control === 'boolean') ? opt.control : true; //Control panel is visible
+
+  //Check the entries option
+  if(typeof opt.entries !== 'object'){ opt.entries = {}; }
+
+  //Entries for each page
   this._entries = {};
-  this._entries.actual = 10; //Actual number of entries
-  this._entries.available = [ 10, 25, 50, 100 ]; //Available number of entries
+  this._entries.id = this._id + '-entries'; //Entries ID
+  this._entries.class = this._class + '-entries'; //Entries class
+  this._entries.actual = (typeof opt.entries.defaul !== 'undefined') ? parseInt(opt.entries.default) : 10; //Actual number of entries
+  this._entries.available = (typeof opt.entries.available !== 'undefined') ? opt.entries.available : [ 10, 25, 50, 100 ]; //Available number of entries
+  this._entries.visible = (typeof opt.entries.visible === 'boolean') ? opt.entries.visible : true;
+
+  //Entries label
+  this._entries.label = {};
+  this._entries.label.id = this._entries.id + '-label'; //Entries label ID
+  this._entries.label.class = this._entries.class + '-label'; //Entries label class
+  this._entries.label.text = 'Show'; //Entries label text
+
+  //Entries select element
+  this._entries.select = {};
+  this._entries.select.id = this._entries.id + '-select'; //Entries select ID
+  this._entries.select.class = this._entries.class + '-select'; //Entries select class
+
+  //Check the info object
+  if(typeof opt.info !== 'object'){ opt.info = {}; }
+
+  //Info block
+  this._info = {};
+  this._info.id = this._id + '-info'; //Info ID
+  this._info.class = this._class + '-info'; //Info class
+  this._info.visible = true; //Info section is visible
+
+  //Status counter
+  this._info.showing = {};
+  this._info.showing.id = this._info.id + '-showing'; //Showing entries ID
+  this._info.showing.class = this._info.class + '-actual'; //Showing entries class
+  this._info.showing.visible = (typeof opt.info.showing === 'boolean') ? opt.info.showing : true; //Display the actual page counter
+  this._info.showing.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b>'; //Info text
+
+  //Total entries counter
+  this._info.total = {};
+  this._info.total.id = this._info.id + '-total'; //Total counter ID
+  this._info.total.class = this._info.class + '-total'; //Total counter class
+  this._info.total.visible = (typeof opt.info.total === 'boolean') ? opt.info.total : true; //Display the total counter
+  this._info.total.text = 'Total <b>{total}</b> entries'; //Total entries text
+
+  //Checked rows
+  this._info.checked = {};
+  this._info.checked.id = this._info.id + '-checked'; //Page checked ID
+  this._info.checked.class = this._info.class + '-checked'; //Page checked class
+  this._info.checked.visible = (typeof opt.info.checked === 'booblean') ? opt.info.checked : true; //Page checked is visible
+  this._info.checked.text = '<b>{check}</b> rows checked'; //Page checked text
 
   //Page object
   this._page = {};
@@ -126,7 +179,7 @@ jviz.modules.table = function(opt)
   this._page.end = 1; //End page
   this._page.actual = 1; //Actual page
   this._page.step = 1; //Page step
-  this._page.visible = true; //Page controls is visible
+  this._page.visible = (typeof opt.page === 'boolean') ? opt.page : true; //Page controls is visible
 
   //Page buttons
   this._page.btn = {};
@@ -147,36 +200,25 @@ jviz.modules.table = function(opt)
   this._page.btn.next.text = 'Next'; //Page button next text
   this._page.btn.next.visible = true; //Page button next visible
 
-  //Page counter
-  this._page.counter = {};
-  this._page.counter.id = this._page.id + '-counter'; //Page counter ID
-  this._page.counter.class = this._page.class + '-counter'; //Page counter class
-  this._page.counter.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b> entries. Total <b>{total}</b> entries'; //Text
-  this._page.counter.visible = true; //Page counter is visible
+  //Page labels
+  this._page.label = {};
+  this._page.label.id = this._page.id + '-label'; //Counter page label ID
+  this._page.label.class = this._page.class + '-label'; //Counter page label class
 
-  //Page checked counter
-  this._page.checked = {};
-  this._page.checked.id = this._page.id + '-checked'; //Page checked ID
-  this._page.checked.class = this._page.class + '-checked'; //Page checked class
-  this._page.checked.text = '<b>{check}</b> rows checked'; //Page checked text
-  this._page.checked.visible = true; //Page checked is visible
+  //Page text label
+  this._page.label.page = {};
+  this._page.label.page.id = this._page.label.id + '-'; //Label page object ID
+  this._page.label.page.text = 'Page'; //Label page object class
 
-  //Page control
-  this._page.control = {};
-  this._page.control.id = this._page.id + '-control'; //Control page ID
-  this._page.control.class = this._page.class + '-control'; //Control page class
-  this._page.control.visible = true; //Page control is visible
-
-  //Page control labels
-  this._page.control.label = {};
-  this._page.control.label.id = this._page.control.id + '-label'; //Counter page label ID
-  this._page.control.label.page = { id: this._page.control.label.id + '-', text: 'Page' }; //Label page object
-  this._page.control.label.total = { id: this._page.control.label.id + '-total', text: 'of {pages}' }; //Pabel total object
+  //Pabe text total
+  this._page.label.total = {};
+  this._page.label.total.id = this._page.label.id + '-total'; //Page total ID
+  this._page.label.total.text = 'of {pages}'; //Pabel total text
 
   //Page control select
-  this._page.control.input = {};
-  this._page.control.input.id = this._page.control.id + '-input'; //Input page ID
-  this._page.control.input.class = this._page.control.class + '-input'; //Input page class
+  this._page.input = {};
+  this._page.input.id = this._page.id + '-input'; //Input page ID
+  this._page.input.class = this._page.class + '-input'; //Input page class
 
   //Build the events
   this._events = new jviz.commons.events();
