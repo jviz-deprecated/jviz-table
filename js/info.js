@@ -2,7 +2,7 @@
 jviz.modules.table.prototype.info = function()
 {
   //Check if the checkbox element is visible
-  if(this._info.checkbox.visible === true)
+  if(this._info.checked.visible === true)
   {
     //Get the number of checked rows
     var count = this.countChecked();
