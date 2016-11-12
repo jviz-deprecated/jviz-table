@@ -85,13 +85,13 @@ jviz.modules.table.prototype.pageBuild = function()
   jviz.dom.append(this._page.id, { id: this._page.btn.next.id, class: this._page.btn.next.class });
 
   //Build the page label
-  jviz.dom.append(this._page.id, { id: this._page.label.page.id, class: this._page.label.page.class });
+  jviz.dom.append(this._page.id, { id: this._page.label.total.id, class: this._page.label.class });
 
   //Build the page input
   jviz.dom.append(this._page.id, { _tag: 'input', type: 'number', id: this._page.input.id, class: this._page.input.class });
 
   //Build the page label
-  jviz.dom.append(this._page.id, { id: this._page.label.total.id, class: this._page.label.total.class });
+  jviz.dom.append(this._page.id, { id: this._page.label.page.id, class: this._page.label.class });
 
   //Build the previous button
   jviz.dom.append(this._page.id, { id: this._page.btn.prev.id, class: this._page.btn.prev.class });
