@@ -14,7 +14,7 @@ jviz.modules.table.prototype.info = function()
     jviz.dom.html(this._info.checked.id, text);
 
     //Check the number
-    (count === 0) ? jviz.dom.hide(this._info.checked.id) : jviz.dom.show(this._info.checked.id);
+    (count === 0) ? jviz.dom.hide(this._info.checked.id) : jviz.dom.show(this._info.checked.id, 'inline-block');
   }
 
   //Check the total element
@@ -30,7 +30,7 @@ jviz.modules.table.prototype.info = function()
     jviz.dom.html(this._info.total.id, this._info.total.text.replace('{total}', data_src));
 
     //Check for show or hide
-    (data_src === data_filter) ? jviz.dom.hide(this._info.total.id) : jviz.dom.show(this._info.total.id);
+    (data_src === data_filter) ? jviz.dom.hide(this._info.total.id) : jviz.dom.show(this._info.total.id, 'inline-block');
   }
 
   //Get the entries text
