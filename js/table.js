@@ -153,16 +153,16 @@ jviz.modules.table = function(opt)
   //Status counter
   this._info.showing = {};
   this._info.showing.id = this._info.id + '-showing'; //Showing entries ID
-  this._info.showing.class = this._info.class + '-actual'; //Showing entries class
+  this._info.showing.class = this._info.class + '-showing'; //Showing entries class
   this._info.showing.visible = (typeof opt.info.showing === 'boolean') ? opt.info.showing : true; //Display the actual page counter
-  this._info.showing.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b>'; //Info text
+  this._info.showing.text = 'Showing <b>{start}</b> to <b>{end}</b> of <b>{actual}</b>.'; //Info text
 
   //Total entries counter
   this._info.total = {};
   this._info.total.id = this._info.id + '-total'; //Total counter ID
   this._info.total.class = this._info.class + '-total'; //Total counter class
   this._info.total.visible = (typeof opt.info.total === 'boolean') ? opt.info.total : true; //Display the total counter
-  this._info.total.text = 'Total <b>{total}</b> entries'; //Total entries text
+  this._info.total.text = 'Total <b>{total}</b> entries.'; //Total entries text
 
   //Checked rows
   this._info.checked = {};
@@ -207,7 +207,7 @@ jviz.modules.table = function(opt)
 
   //Page text label
   this._page.label.page = {};
-  this._page.label.page.id = this._page.label.id + '-'; //Label page object ID
+  this._page.label.page.id = this._page.label.id + '-page'; //Label page object ID
   this._page.label.page.text = 'Page'; //Label page object class
 
   //Pabe text total
