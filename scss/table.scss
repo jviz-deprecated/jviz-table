@@ -82,7 +82,7 @@
       &-order
       {
         //Display
-        display: block; width: 15px; height: 40px; float: right; transition: all 0.3s; 
+        display: block; width: 15px; height: 40px; float: right; transition: all 0.3s;
 
         //Cursor
         cursor: pointer;
@@ -163,36 +163,50 @@
     &-row:last-child &-cell:last-child { border-bottom-right-radius: 5px; }
   }
 
-  //Page container
-  &-page
+  //Control options
+  &-control
   {
     //Style
     display: block; width: 100%;
 
     //Padding
     padding: { top: 10px; bottom: 10px; }
+  }
 
-    //Page entries counter
-    &-counter
+  //Info container
+  &-info
+  {
+    //Display
+    display: inline-block; float: left;
+
+    //Text
+    line-height: 30px; font-size: 14px; color: $jvizNavy;
+
+    //Page showing
+    &-showing
     {
-      //Style
-      display: block; float: left;
-
-      //Text
-      font-size: 14px; line-height: 30px;
-
-      //Padding
-      padding: { left: 0px; right: 0px; }
+      //Display
+      display: inline-block; height: 30px;
 
       //Margin
-      margin: { left: 0px; right: 10px; }
+      margin: { left: 10px; right: 0px; }
+    }
+
+    //Page total
+    &-total
+    {
+      //Display
+      display: inline-block; height: 30px;
+
+      //Margin
+      margin: { left: 5px; right: 0px; }
     }
 
     //Page checked rows counter
     &-checked
     {
       //Style
-      display: block; float: left; height: 30px;
+      display: inline-block; height: 30px;
 
       //Text
       font-size: 14px; font-weight: bold; color: $jvizWhite; line-height: 30px;
@@ -207,27 +221,58 @@
       padding: { left: 10px; right: 10px; }
 
       //Margin
-      margin: { left: 0px; right: 10px; }
+      margin: { left: 10px; right: 0px; }
     }
+  }
 
+  //Page entries
+  &-entries
+  {
+    //Display
+    display: block; height: 30px; float: left;
 
-    //Page control
-    &-control
+    //Text
+    line-height: 30px; font-size: 14px; color: $jvizNavy;
+
+    //Margin
+    margin: { left: 0px; right: 10px; }
+
+    //Label
+    &-label { display: inline-block; }
+
+    //Select
+    &-select { @include jvizInput(); padding-right: 0px; margin-left: 10px; margin-right: 0px; }
+  }
+
+  //Page container
+  &-page
+  {
+    //Page label
+    &-label
     {
-      //Style
-      display: inline-block; height: 30px; float: right;
+      display: inline-block; float: right; height: 30px;
 
       //Text
       line-height: 30px; font-size: 14px; color: $jvizNavy;
 
       //Padding
-      padding: { left: 15px; right: 15px; }
+      padding: { left: 10px; right: 10px; }
+    }
 
-      //Control page label
-      //&-label { display: inline-block; padding: { left: 10px; right: 10px; } }
+    //Control page input
+    &-input
+    {
+      //Include the input mixin
+      @include jvizInput();
 
-      //Control page input
-      &-input { @include jvizInput(); width: 60px; text-align: center; padding-right: 0px; margin-left: 10px; margin-right: 10px; }
+      //Display
+      width: 60px; text-align: center; float: right;
+
+      //Padding
+      padding: { right: 0px; }
+
+      //Margin
+      margin: { left: 0px; right: 0px; }
     }
 
     //Page button
