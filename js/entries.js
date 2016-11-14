@@ -13,6 +13,16 @@ jviz.modules.table.prototype.entries = function(n)
   //Save the number
   this._entries.actual = n;
 
+  //find the entries on the entries list
+  var index = this._entries.list.indexOf(this._entries.actual);
+
+  //Check the index
+  if(index !== -1)
+  {
+    //Update the select
+    jviz.dom.val(this._entries.select.id, index.toString());
+  }
+
   //Calculate the number of pages
   this._page.end = this._data.length / this._entries.actual;
 
@@ -64,6 +74,73 @@ jviz.modules.table.prototype.entriesBuild = function()
 
   //Return this
   return this;
+};
+
+//Show the entries list
+jviz.modules.table.prototype.entriesList = function(list)
+{
+  //Check the entries list
+  if(typeof list !== 'object'){ return this._entries.list; }
+
+  //Check the list
+  if(jviz.is.array(list) === false){ list = [ list ]; }
+
+  //Parse and save the values
+  this._entries.list = this.entriesParse(list);
+
+  //Reset the entries container
+  jviz.dom.html(this._entries.select.id, '');
+
+  //Read the full list of entries
+  for(var i = 0; i < this._entries.list.length; i++)
+  {
+    //Get the element
+    var el = this._entries.list[i];
+
+    //Check the value
+    var value = (el === -1) ? 'All' : el.toString();
+
+    //Get the option
+    var opt = this._entries.select.option.replace('{index}', i).replace('{value}', value);
+
+    //Append the new option
+    jviz.dom.append(this._entries.select.id, opt);
+  }
+
+  //Return this
+  return this;
+};
+
+//Parse the entries list
+jviz.modules.table.prototype.entriesParse = function(data)
+{
+  //Initialize the new list
+  var list = [];
+
+  //Read all the elements
+  for(var i = 0; i < data.length; i++)
+  {
+    //Parse the element
+    var el = parseInt(data[i]);
+
+    //Check for number
+    if(jviz.is.number(el) === false){ continue; }
+
+    //Check for NaN
+    if(jviz.is.nan(el) === true){ continue; }
+
+    //Check the value
+    if(el < -1){ continue; }
+
+    //Check for 0
+    if(el === 0){ continue; }
+
+    //Save the element
+    list.push(el);
+  }
+
+  //Return the parsed list
+  return list;
 };
 
 //Change the number of entries
