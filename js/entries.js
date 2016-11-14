@@ -146,5 +146,22 @@ jviz.modules.table.prototype.entriesParse = function(data)
 //Change the number of entries
 jviz.modules.table.prototype.entriesChange = function()
 {
+  //Get the actual value
+  var value = jviz.dom.val(this._entries.select.id);
 
+  //Contert to integer
+  value = parseInt(value);
+
+  //Get the entries number
+  var num = this._entries.list[value];
+
+  //Check the number
+  if(num === -1)
+  {
+    //Update the entries numner
+    num = this._data.src.length;
+  }
+
+  //Update the entries list
+  this.entries(num).draw();
 };
