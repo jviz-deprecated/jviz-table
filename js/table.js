@@ -127,7 +127,7 @@ jviz.modules.table = function(opt)
   this._entries.id = this._id + '-entries'; //Entries ID
   this._entries.class = this._class + '-entries'; //Entries class
   this._entries.actual = (typeof opt.entries.default !== 'undefined') ? parseInt(opt.entries.default) : 10; //Actual number of entries
-  this._entries.list = (typeof opt.entries.list !== 'undefined') ? opt.entries.list : [ 10, 25, 50, 100 ]; //Entries list
+  this._entries.list = (typeof opt.entries.list !== 'undefined') ? opt.entries.list : [ -1, 5, 10, 20 ]; //Entries list
   this._entries.visible = (typeof opt.entries.visible === 'boolean') ? opt.entries.visible : true;
 
   //Entries label
