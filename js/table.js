@@ -126,8 +126,8 @@ jviz.modules.table = function(opt)
   this._entries = {};
   this._entries.id = this._id + '-entries'; //Entries ID
   this._entries.class = this._class + '-entries'; //Entries class
-  this._entries.actual = (typeof opt.entries.defaul !== 'undefined') ? parseInt(opt.entries.default) : 10; //Actual number of entries
-  this._entries.available = (typeof opt.entries.available !== 'undefined') ? opt.entries.available : [ 10, 25, 50, 100 ]; //Available number of entries
+  this._entries.actual = (typeof opt.entries.default !== 'undefined') ? parseInt(opt.entries.default) : 10; //Actual number of entries
+  this._entries.list = (typeof opt.entries.list !== 'undefined') ? opt.entries.list : [ 10, 25, 50, 100 ]; //Entries list
   this._entries.visible = (typeof opt.entries.visible === 'boolean') ? opt.entries.visible : true;
 
   //Entries label
@@ -140,6 +140,7 @@ jviz.modules.table = function(opt)
   this._entries.select = {};
   this._entries.select.id = this._entries.id + '-select'; //Entries select ID
   this._entries.select.class = this._entries.class + '-select'; //Entries select class
+  this._entries.select.option = '<option value="{index}">{value}</option>'; //Entries select option templaate
 
   //Check the info object
   if(typeof opt.info !== 'object'){ opt.info = {}; }
@@ -228,6 +229,9 @@ jviz.modules.table = function(opt)
 
   //Parse and build the columns
   this.columns(this._columns.src);
+
+  //Build the enetries list
+  this.entriesList(this._entries.list);
 
   //Get the data
   //if(typeof this._data.ajax.url === 'string'){ return this.ajax(); }
