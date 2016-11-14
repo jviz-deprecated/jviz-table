@@ -2,7 +2,7 @@
 jviz.modules.table.prototype.check = function(index, emit_event)
 {
   //Check the emit event
-  if(typeof emit_event === 'undefined'){ var emit_event = true; }
+  if(typeof emit_event === 'undefined'){ var emit_event = false; }
 
   //Update the check list
   this._data.check[index] = true;
@@ -38,7 +38,7 @@ jviz.modules.table.prototype.check = function(index, emit_event)
 jviz.modules.table.prototype.checkAll = function(emit_event)
 {
   //Check the emit event
-  if(typeof emit_event === 'undefined'){ var emit_event = true; }
+  if(typeof emit_event === 'undefined'){ var emit_event = false; }
 
   //Read the full list
   for(var i = 0; i < this._data.check.length; i++)
@@ -76,7 +76,7 @@ jviz.modules.table.prototype.checkAll = function(emit_event)
 jviz.modules.table.prototype.uncheck = function(index, emit_event)
 {
   //Check the emit event
-  if(typeof emit_event === 'undefined'){ var emit_event = true; }
+  if(typeof emit_event === 'undefined'){ var emit_event = false; }
 
   //Update the check list
   this._data.check[index] = false;
@@ -112,7 +112,7 @@ jviz.modules.table.prototype.uncheck = function(index, emit_event)
 jviz.modules.table.prototype.uncheckAll = function(emit_event)
 {
   //Check the emit event
-  if(typeof emit_event === 'undefined'){ var emit_event = true; }
+  if(typeof emit_event === 'undefined'){ var emit_event = false; }
 
   //Read the full list
   for(var i = 0; i < this._data.check.length; i++)
