@@ -181,6 +181,12 @@ jviz.modules.table.prototype.clearCheck = function()
 {
   //Remove all checks
   this._data.check = jviz.array.create(this._data.src.length, false);
+
+  //Uncheck the head checkbox
+  this.headUncheck();
+
+  //Return this
+  return this;
 };
 
 //Check event
