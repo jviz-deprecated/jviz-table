@@ -8,7 +8,7 @@
   display: block; width: 100%;
 
   //Checkbox
-  &-checkbox { @include jvizComponentsCheckbox; margin: { top: 0px; bottom: 0px; left: 5px; right: 5px; } }
+  &-checkbox { @include jviz-components-checkbox; margin: { top: 0px; bottom: 0px; left: 5px; right: 5px; } }
 
   //Table container
   &-main { display: block; width: 100%; overflow-x: auto; overflow-y: auto; }
@@ -23,7 +23,7 @@
     table-layout: auto;
 
     //Text
-    @include jvizFont; color: $jvizNavy;
+    @include jviz-font; color: $jviz-navy;
 
     //Border
     border: { collapse: collapse; width: 0px; }
@@ -36,7 +36,7 @@
     display: table-header-group; width: 100%; position: relative; height: 40px;
 
     //Background
-    background-color: $jvizGrey2;
+    background-color: $jviz-grey-2;
 
     //Row
     &-row { display: table-row; transition: all 0.3s; }
@@ -131,16 +131,16 @@
       display: table-row; transition: all 0.3s;
 
       //Even rows
-      &:nth-child(even) { background-color: $jvizGrey3; }
+      &:nth-child(even) { background-color: $jviz-grey-3; }
 
       //Even rows hover
-      &:nth-child(even):hover { background-color: rgba($jvizGrey, 0.9); }
+      &:nth-child(even):hover { background-color: rgba($jviz-grey, 0.9); }
 
       //Odd rows
-      &:nth-child(odd) { background-color: $jvizGrey4; }
+      &:nth-child(odd) { background-color: $jviz-grey-4; }
 
       //Odd rows hover
-      &:nth-child(odd):hover { background-color: rgba($jvizGrey, 0.9); }
+      &:nth-child(odd):hover { background-color: rgba($jviz-grey, 0.9); }
     }
 
     //Cell
@@ -180,7 +180,7 @@
     display: inline-block; float: left;
 
     //Text
-    line-height: 30px; font-size: 14px; color: $jvizNavy;
+    line-height: 30px; font-size: 14px; color: $jviz-navy;
 
     //Page showing
     &-showing
@@ -209,10 +209,10 @@
       display: inline-block; height: 30px;
 
       //Text
-      font-size: 14px; font-weight: bold; color: $jvizWhite; line-height: 30px;
+      font-size: 14px; font-weight: bold; color: $jviz-white; line-height: 30px;
 
       //Background color
-      background-color: $jvizNavy4;
+      background-color: $jviz-navy-4;
 
       //Border
       border-radius: 5px;
@@ -232,7 +232,7 @@
     display: block; height: 30px; float: left;
 
     //Text
-    line-height: 30px; font-size: 14px; color: $jvizNavy;
+    line-height: 30px; font-size: 14px; color: $jviz-navy;
 
     //Margin
     margin: { left: 0px; right: 10px; }
@@ -241,7 +241,7 @@
     &-label { display: inline-block; }
 
     //Select
-    &-select { @include jvizInput(); padding-right: 0px; margin-left: 10px; margin-right: 0px; }
+    &-select { @include jviz-input; padding-right: 0px; margin-left: 10px; margin-right: 0px; }
   }
 
   //Page container
@@ -253,7 +253,7 @@
       display: inline-block; float: right; height: 30px;
 
       //Text
-      line-height: 30px; font-size: 14px; color: $jvizNavy;
+      line-height: 30px; font-size: 14px; color: $jviz-navy;
 
       //Padding
       padding: { left: 10px; right: 10px; }
@@ -263,7 +263,7 @@
     &-input
     {
       //Include the input mixin
-      @include jvizInput();
+      @include jviz-input;
 
       //Display
       width: 60px; text-align: center; float: right;
@@ -276,6 +276,6 @@
     }
 
     //Page button
-    &-btn { @include jvizBtn($jvizGrey, $jvizNavy); float: right; }
+    &-btn { @include jviz-btn; float: right; background-color: $jviz-grey; color: $jviz-navy; }
   }
 }
