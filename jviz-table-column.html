@@ -1,0 +1,30 @@
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+
+<!-- Import dependencies -->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../jviz/jviz.html">
+
+<!-- Table column -->
+<dom-module id="jviz-table-column">
+  <template></template>
+</dom-module>
+
+<!-- Column logic -->
+<script>
+
+//Initialize the table column object
+var jviz_table_column = { is: 'jviz-table-column' };
+
+//Table column properties
+jviz_table_column.properties = {};
+jviz_table_column.properties.columnKey = { type: String, reflectToAttribute: true };
+jviz_table_column.properties.columnType = { type: String, reflectToAttribute: true };
+
+</script>
+
+<!-- Register the table column -->
+<script> Polymer(jviz_table_column); </script>
