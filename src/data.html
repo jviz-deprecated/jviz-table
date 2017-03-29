@@ -1,0 +1,59 @@
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+<script>
+
+//Set the data
+jviz_table.set_data = function(data)
+{
+  //Check for undefined data
+  if(typeof data === 'undefined'){ return; }
+
+  //Check for array
+  if(jviz.is.array(data) === false){ data = [ data ]; }
+
+  //Save the data count
+  this._data.length = data.length;
+
+  //Add the data index
+  this._data.src = data.map(function(el, index)
+  {
+    //Add the index
+    el._index = index;
+
+    //Return the element
+    return el;
+  });
+
+  //Reset the filter
+  this.clear_filter();
+
+  //Reset the order
+  this.clear_order();
+
+  //Reset the row class
+  this.clear_class();
+
+  //Reset the checkboxes
+  this.clear_check();
+
+  //Reset the entries
+  this.entries(this._entries.actual);
+
+  //Draw the data
+  this.draw();
+
+  //Return this
+  return this;
+};
+
+//Get the data
+jviz_table.get_data = function()
+{
+  //Return the data object
+  return this._data.src;
+};
+
+</script>
