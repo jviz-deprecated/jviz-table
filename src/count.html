@@ -1,0 +1,47 @@
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+<script>
+
+//Get the total number of rows
+jviz_table.count = function()
+{
+  //Return the original length
+  return this._data.src.length;
+};
+
+//Count the actual number of rows
+jviz_table.count_rows = function()
+{
+  //Return the actual length
+  return this._data.length;
+};
+
+//Count the number of checked rows
+jviz_table.count_checked = function()
+{
+  /*
+  //Initialize the counter
+  var counter = 0;
+
+  //Read all the data
+  for(var i = 0; i < this._data.src.length; i++)
+  {
+    //Check if is checked
+    if(this._data.check[i] === false){ continue; }
+
+    //Increment the counter
+    counter = counter + 1;
+  }
+
+  //Return the counter
+  return counter;
+  */
+
+  //Return the number of checked rows
+  return jviz.array.count(this._data.check, true);
+};
+
+</script>
