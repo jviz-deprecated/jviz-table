@@ -6,7 +6,8 @@
   {
     "polymer": "Polymer/polymer#^1.4.0",
     "jviz": "https://github.com/jviz/jviz.git#dev",
-    "jviz-styles": "https://github.com/jviz/jviz-styles.git#dev"
+    "jviz-styles": "https://github.com/jviz/jviz-styles.git#dev",
+    "jviz-form": "https://github.com/jviz/jviz-form.git#dev"
   },
   "license": "MIT",
   "authors": [ "Josemi Juanes <josemijuanes@gmail.com>" ],
