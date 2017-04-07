@@ -16,19 +16,18 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 <!-- Column logic -->
 <script>
 
-//Initialize the table column object
-var jviz_table_column = { is: 'jviz-table-column' };
+  //Initialize the table column object
+  var jviz_table_column = { is: 'jviz-table-column' };
 
-//Table column properties
-jviz_table_column.properties = {};
-jviz_table_column.properties.columnKey = { type: String, reflectToAttribute: true };
-jviz_table_column.properties.columnTitle = { type: String, reflectToAttribute: true };
-jviz_table_column.properties.columnType = { type: String, reflectToAttribute: true };
-jviz_table_column.properties.columnVisible = { type: Boolean, reflectToAttribute: true };
-jviz_table_column.properties.columnParse = { type: String, reflectToAttribute: true };
-jviz_table_column.properties.columnSortable = { type: Boolean, reflectToAttribute: true };
+  //Table column properties
+  jviz_table_column.properties = {};
+  jviz_table_column.properties.key = { type: String, reflectToAttribute: true, value: '' };
+  jviz_table_column.properties.title = { type: String, reflectToAttribute: true, value: 'Untitled' };
+  jviz_table_column.properties.visible = { type: Boolean, reflectToAttribute: true, value: false };
+  jviz_table_column.properties.parse = { type: String, reflectToAttribute: true, value: '' };
+  jviz_table_column.properties.sortable = { type: Boolean, reflectToAttribute: true, value: false };
 
-//Register the table column
-Polymer(jviz_table_column);
+  //Register the table column
+  Polymer(jviz_table_column);
 
 </script>
