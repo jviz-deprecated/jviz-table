@@ -381,7 +381,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     this._clear_sort();
 
     //Reset the sort keys
-    this._reset_sort();
+    //this._reset_sort();
 
     //Read all the conditions
     conditions.forEach(function(el)
@@ -403,6 +403,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Sort the data
   jviz_table._apply_sort = function()
   {
+    //Reset the keys order
+    this._reset_sort();
+
     //Check the sort keys
     if(this._sort_keys.length !== 0)
     {
@@ -544,7 +547,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     });
 
     //Reset the sorted keys
-    this._reset_sort();
+    //this._reset_sort();
 
     //Order again the data
     this._apply_sort();
