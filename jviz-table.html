@@ -584,6 +584,24 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     {
       //Display in console
       console.debug('Shift pressed');
+
+      //Check if column exists
+      if(column_exists === true)
+      {
+        //Display in console
+        console.debug('Key ' + column_key + ' exists, change the order');
+
+        //Change the order
+        this._change_sort(column_key);
+      }
+      else
+      {
+        //Display in console
+        console.debug('Key ' + column_key + ' does not exists, adding');
+        
+        //Add the new key
+        this._add_sort(column_key);
+      }
     }
     else
     {
