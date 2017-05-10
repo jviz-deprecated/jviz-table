@@ -140,7 +140,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
               <div class="cell checkbox"></div>
             </template>
             <template id="headerRow" is="dom-repeat" items="{{ _columns }}">
-              <div class="cell" data-column$="{{ item.key }}" on-tap="_tap_head_cell">
+              <div class="cell" data-key$="{{ item.key }}" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
                 {{ item.header }}
               </div>
             </template>
@@ -209,13 +209,13 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     var list = [];
 
     //Read all the columns
-    this.columns.forEach(function(col)
+    this.columns.forEach(function(col, index)
     {
       //Check if column is visible
       if(col.visible === false){ return; }
 
       //Save the column information
-      list.push({ header: col.header, key: col.key });
+      list.push({ header: col.header, key: col.key, index: index });
     });
 
     //Reset the columns list
@@ -571,10 +571,13 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._tap_head_cell = function(e)
   {
     //Display the column index in console
-    console.debug(e.target.dataset.column);
+    console.debug(e.target.dataset.key);
 
     //Get the column key value
-    var column_key = e.target.dataset.column;
+    var column_key = e.target.dataset.key;
+
+    //Get the column index
+    var column_index = e.target.dataset.index;
 
     //Check if exists
     var column_exists = this._sort_keys.indexOf(column_key) !== -1;
@@ -598,7 +601,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       {
         //Display in console
         console.debug('Key ' + column_key + ' does not exists, adding');
-        
+
         //Add the new key
         this._add_sort(column_key);
       }
