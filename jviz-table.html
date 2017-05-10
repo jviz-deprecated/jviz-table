@@ -148,12 +148,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         </div>
         <!-- Table body -->
         <div id="body" class="body">
-          <template id="rowRepeat" is="dom-repeat" items="{{ _keys_displayed }}" as="row">
+          <template id="bodyRow" is="dom-repeat" items="{{ _keys_displayed }}" as="row">
             <div class="row">
               <template is="dom-if" if="{{ selectable }}">
                 <div class="cell checkbox"></div>
               </template>
-              <template id="cellRepeat" is="dom-repeat" items="{{ _columns }}" index-as="column">
+              <template is="dom-repeat" items="{{ _columns }}" index-as="column">
                 <div class="cell" data-row$="{{ row }}" data-column$="{{ column }}" on-tap="_tap_body_cell">
                   {{ _display_data(row, column) }}
                 </div>
@@ -251,16 +251,16 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     var column_parse = this._columns[column_index].parse;
 
     //Get the real index
-    var index = this._keys_sorted[row_index];
+    //var index = this._keys_displayed[row_index];
 
     //Get the data value
-    var value = (typeof this.data[index][column_key] === 'undefined') ? '' : this.data[index][column_key];
+    var value = (typeof this.data[row_index][column_key] === 'undefined') ? '' : this.data[row_index][column_key];
 
     //Check if the parse method is defined
     if(column_parse)
     {
       //Parse the column data
-      var new_value = jviz.exec(column_parse, window, value, column_key, this.data[index], index);
+      var new_value = jviz.exec(column_parse, window, value, column_key, this.data[row_index], row_index);
 
       //Check the new value
       if(typeof new_value !== 'undefined')
@@ -318,11 +318,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       console.log('Draw ' + start + ' - ' + end);
 
       //Build the displayed keys array
-      this._keys_displayed = jviz.array.range(start, end, 1)
+      //this._keys_displayed = jviz.array.range(start, end, 1);
+      this._keys_displayed = this._keys_sorted.slice(start, end + 1);
     }
 
     //Render the table
-    //this._render();
+    //this.$.bodyRow.render();
     //this._display_data();
   };
 
