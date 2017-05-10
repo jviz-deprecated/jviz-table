@@ -9,17 +9,586 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 <link rel="import" href="../jviz/jviz.html">
 <link rel="import" href="../jviz-styles/jviz-styles.html">
 
+<!-- Import table components -->
+<link rel="import" href="./jviz-table-column.html">
+
 <!-- Table component -->
 <dom-module id="jviz-table">
   <template>
     <style>
+      /* Host variables */
+      :host
+      {
 
+      }
+
+      /* Table container */
+      :host .main
+      {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+      }
+
+      /* Table element */
+      :host .table
+      {
+        display: table;
+        min-width: 100%;
+        table-layout: auto;
+        @apply(--jviz-font);
+        color: var(--jviz-navy);
+        border-collapse: collapse;
+        border-width: 0px;
+      }
+
+      /* Table head */
+      :host .head
+      {
+        display: table-header-group;
+        width: 100%;
+        position: relative;
+        height: 40px;
+        background-color: var(--jviz-grey-2);
+      }
+
+      /* Table head row */
+      :host .head .row
+      {
+        display: table-row;
+        transition: all 0.3s;
+      }
+
+      /* Table head cell */
+      :host .head .cell
+      {
+        display: table-cell;
+        transition: all 0.3s;
+        vertical-align: top;
+        user-select: none;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        font-weight: bold;
+        line-height: 24px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
+        padding: 10px;
+      }
+
+      /* Checkbox cell */
+      :host .head .checkbox
+      {
+        width: 26px;
+        padding-right: 10px;
+        padding-left: 10px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      /* First head cell */
+      :host .head .cell:first-of-type { border-top-left-radius: 5px !important; }
+
+      /* Last head cell */
+      :host .head .cell:last-of-type { border-top-right-radius: 5px !important; }
+
+      /* Table body */
+      :host .body
+      {
+        display: table-row-group;
+      }
+
+      /* Table body row */
+      :host .body .row
+      {
+        display: table-row;
+        transition: all 0.3s;
+      }
+
+      /* Table body even rows */
+      :host .body .row:nth-child(even) { background-color: var(--jviz-grey-4); }
+
+      /* Table row odd rows */
+      :host .body .row:nth-child(odd) { background-color: var(--jviz-grey-3); }
+
+      /* Table body cell */
+      :host .body .row .cell
+      {
+        display: table-cell;
+        transition: all 0.3s;
+        padding: 10px;
+      }
+
+      /* Table body last row first cell */
+      :host .body .row:last-of-type .cell:first-of-type { border-bottom-left-radius: 5px !important; }
+
+      /* Table body last row last cell */
+      :host .body .row:last-of-type .cell:last-of-type { border-bottom-right-radius: 5px !important; }
     </style>
+    <!-- Columns -->
+    <content is="jviz-table-column"></content>
+    <div id="main" class="main">
+      <!-- Table container -->
+      <div id="table" class="table">
+        <!-- Table head -->
+        <div id="head" class="head">
+          <div class="row">
+            <template is="dom-if" if="{{ selectable }}">
+              <div class="cell checkbox"></div>
+            </template>
+            <template id="headerRow" is="dom-repeat" items="{{ _columns }}">
+              <div class="cell" data-column$="{{ item.key }}" on-tap="_tap_head_cell">
+                {{ item.header }}
+              </div>
+            </template>
+          </div>
+        </div>
+        <!-- Table body -->
+        <div id="body" class="body">
+          <template id="rowRepeat" is="dom-repeat" items="{{ _keys_displayed }}" as="row">
+            <div class="row">
+              <template is="dom-if" if="{{ selectable }}">
+                <div class="cell checkbox"></div>
+              </template>
+              <template id="cellRepeat" is="dom-repeat" items="{{ _columns }}" index-as="column">
+                <div class="cell" data-row$="{{ row }}" data-column$="{{ column }}" on-tap="_tap_body_cell">
+                  {{ _display_data(row, column) }}
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+    <!-- Page control -->
+    <content is="jviz-table-page"></content>
   </template>
 </dom-module>
 
-<!-- Import table logic -->
-<link rel="import" href="./src/table.html">
+<!-- Table logic -->
+<script>
+  //Initialize the table element
+  var jviz_table = { is: 'jviz-table' };
 
-<!-- Register the table element -->
-<script> Polymer(jviz_table); </script>
+  //Properties
+  jviz_table.properties = {};
+  jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
+
+  //Table private variables
+  jviz_table.properties._sort = { type: Array, value: [] };
+  jviz_table.properties._columns = { type: Array, value: [] };
+  jviz_table.properties._keys_displayed = { type: Array, value: [] };
+  jviz_table.properties._keys_selected = { type: Array, value: [] };
+  jviz_table.properties._keys_filtered = { type: Array, value: [] };
+  jviz_table.properties._keys_sorted = { type: Array, value: [] };
+  jviz_table.properties._display_start = { type: Number, value: 0 };
+  jviz_table.properties._display_end = { type: Number, value: 0 };
+
+  //Table public variables
+  jviz_table.properties.columns = { type: Array, value: [], observer: '_update_columns' };
+  jviz_table.properties.data = { type: Array, value: [], observer: '_update_data' };
+
+  //Table is attached
+  jviz_table.attached = function()
+  {
+    //Save the actual columns
+    this.columns = this.queryAllEffectiveChildren('jviz-table-column');
+  };
+
+  //Update the columns
+  jviz_table._update_columns = function()
+  {
+    //Display in console
+    console.debug('Update columns information');
+
+    //Initialize the columns list
+    var list = [];
+
+    //Read all the columns
+    this.columns.forEach(function(col)
+    {
+      //Check if column is visible
+      if(col.visible === false){ return; }
+
+      //Save the column information
+      list.push({ header: col.header, key: col.key, sortable: col.sortable, parse: col.parse });
+    });
+
+    //Reset the columns list
+    this._columns = list;
+  };
+
+  //Update the data
+  jviz_table._update_data = function()
+  {
+    //Display in console
+    console.debug('Update data information');
+
+    //Clear the filter
+    this._clear_filter();
+
+    //Fire the update data event
+    var event = this.fire('update-data', { data: this.data });
+
+    //Check if the prevent default has been set
+    if(event.defaultPrevented === false)
+    {
+      //Display all the data
+      this.display(0, this.data.length - 1);
+    }
+  };
+
+  //Display the data value
+  jviz_table._display_data = function(row_index, column_index)
+  {
+    //Get the column key
+    var column_key = this._columns[column_index].key;
+
+    //Get the column parse method
+    var column_parse = this._columns[column_index].parse;
+
+    //Get the real index
+    var index = this._keys_sorted[row_index];
+
+    //Get the data value
+    var value = (typeof this.data[index][column_key] === 'undefined') ? '' : this.data[index][column_key];
+
+    //Check if the parse method is defined
+    if(column_parse)
+    {
+      //Parse the column data
+      var new_value = jviz.exec(column_parse, window, value, column_key, this.data[index], index);
+
+      //Check the new value
+      if(typeof new_value !== 'undefined')
+      {
+        //Save the new value
+        value = new_value;
+      }
+    }
+
+    //Return the data value
+    return value;
+  };
+
+  //Display a subset of data
+  jviz_table.display = function(start, end)
+  {
+    //Check for no start position
+    if(typeof start !== 'number'){ var start = 0; }
+
+    //Check for no end position
+    if(typeof end !== 'number'){ var end = this.data.length - 1; }
+
+    //Check the start value
+    if(start < 0){ start = 0; }
+
+    //Check the end value
+    if(end < 0){ end = 0; }
+
+    //Save the start value
+    this._display_start = Math.min(start, end);
+
+    //Save the end value
+    this._display_end = Math.max(start, end);
+
+    //Display the data
+    this._display();
+  };
+
+  //Display the data
+  jviz_table._display = function()
+  {
+    //Reset the displayed keys
+    this._keys_displayed = [];
+
+    //Check for no data to show
+    if(this.data.length > 0)
+    {
+      //Get the computed start position
+      var start = Math.max(0, this._display_start);
+
+      //Get the computed end position
+      var end = Math.min(this._keys_sorted.length - 1, this._display_end);
+
+      //Display in console (debug)
+      console.log('Draw ' + start + ' - ' + end);
+
+      //Build the displayed keys array
+      this._keys_displayed = jviz.array.range(start, end, 1)
+    }
+
+    //Render the table
+    //this._render();
+    //this._display_data();
+  };
+
+  //Select a row
+  jviz_table.select = function(index, notify)
+  {
+
+  };
+
+  //Select all rows
+  jviz_table.select_all = function(notify)
+  {
+
+  };
+
+  //Deselect a row
+  jviz_table.deselect = function(index, notify)
+  {
+
+  };
+
+  //Deselect all rows
+  jviz_table.deselect_all = function(notify)
+  {
+
+  };
+
+  //Toggle the selection
+  jviz_table.toggle = function()
+  {
+
+  };
+
+  //Reset all
+  jviz_table.reset = function()
+  {
+    //Clear the data
+    this.data = [];
+  };
+
+  //Sort the data
+  jviz_table.sort = function(conditions)
+  {
+    //Check for undefined conditions
+    if(typeof conditions !== 'object'){ var conditions = []; }
+
+    //Check if the conditions is an array
+    if(jviz.is.array(conditions) === false){ conditions = [ conditions ]; }
+
+    //Clear the sort
+    this._clear_sort();
+
+    //Save the sort conditions
+    this._sort = conditions;
+
+    //Apply the sort conditions
+    this._apply_sort();
+  };
+
+  //Sort the data
+  jviz_table._apply_sort = function()
+  {
+    //Check the sort keys
+    if(this._sort.length !== 0)
+    {
+      //Save this
+      var self = this;
+
+      //Sort the order array
+      this._keys_sorted.sort(function(a, b)
+      {
+        //Compare all keys
+        for(var i = 0; i < self._sort.length; i++)
+        {
+          //Get the column
+          var column = self._sort[i].column;
+
+          //Get the column key
+          var key = self.columns[column].key;
+
+          //Get the order
+          var order = self._sort[i].order;
+
+          //Check if que difference is numeric
+          var numeric = !isNaN(+self.data[a][key] - +self.data[b][key]);
+
+          //Get the values
+          var value1 = (numeric === true) ? +self.data[a][key] : self.data[a][key].toLowerCase();
+          var value2 = (numeric === true) ? +self.data[b][key] : self.data[b][key].toLowerCase();
+
+          //Check the values
+          if(value1 < value2)
+          {
+            //Check the order
+            return (order === 'desc') ? 1 : -1;
+          }
+          else if(value1 > value2)
+          {
+            //Check the order
+            return (order === 'desc') ? -1 : 1;
+          }
+        }
+
+        //Default, return 0
+        return 0;
+      });
+    }
+
+    //Display again the data
+    this._display();
+  };
+
+  //Reset the sort
+  jviz_table._reset_sort = function()
+  {
+    //Reset the sorted keys
+    this._keys_sorted = this._keys_filtered.concat([]);
+  };
+
+  //Clear the sort
+  jviz_table._clear_sort = function()
+  {
+    //Reset the sorted keys
+    this._reset_sort();
+
+    //Clear the sort conditions
+    this._sort = [];
+  };
+
+  //Check if a sort key exists and return the index
+  jviz_table._index_sort_key = function(key)
+  {
+    //Initialize the index
+    var index = -1;
+
+    //Read all the columns
+    jviz.forEach(this._columns, function(column, column_index)
+    {
+      //Check the key
+      if(column.key !== key){ return true; }
+
+      //Save the index
+      index = column_index;
+
+      //Exit loop
+      return false;
+    });
+
+    //Return the index
+    return index;
+  };
+
+  //Add a new sort key
+  jviz_table._add_sort_key = function(key)
+  {
+    //Get the key index
+    var index = this._index_sort_key(key);
+
+    //Check for index not found
+    if(index === -1)
+    {
+      //Add the new object
+      this._sort.push({ key: key, order: 'asc' });
+    }
+    else
+    {
+      //Update the order
+    }
+  };
+
+  //Change the sort order for a key
+  jviz_table._change_sort_key = function(key)
+  {
+
+  };
+
+  //Remove a sort key
+  jviz_table._remove_sort_key = function(key)
+  {
+    //Get the index
+    var index = this._index_sort_key(key);
+
+    //Check for not found
+    if(index === -1){ return; }
+
+    //Remove from the array
+    this._sort.splice(index, 1);
+  };
+
+  //Update the order value
+  jviz_table._update_order = function(value)
+  {
+
+  };
+
+  //Filter the data
+  jviz_table.filter = function(condition)
+  {
+    //Save this
+    var self = this;
+
+    //Check the condition
+    if(typeof condition !== 'function'){ return this._clear_filter(); }
+
+    //Reset the filtered array
+    this._keys_filtered = [];
+
+    //Read all the data
+    this.data.forEach(function(el, index)
+    {
+      //Call the condition function
+      var valid = condition(el, index);
+
+      //Check for no valid
+      if(typeof valid === 'boolean' && valid === false){ return; }
+
+      //Save the index
+      self._keys_filtered.push(index);
+    });
+
+    //Reset the sorted keys
+    this._reset_sort();
+
+    //Order again the data
+    this._apply_sort();
+  };
+
+  //Clear the filters
+  jviz_table._clear_filter = function()
+  {
+    //Clear the filter keys
+    //this._keys_filtered = Array.apply(null, Array(this.data.length)).map(function(v, i){ return i; });
+    this._keys_filtered = jviz.array.range(0, this.data.length - 1, 1);
+
+    //Reset the sorted keys
+    this._reset_sort();
+
+    //Apply the sort conditions
+    this._apply_sort();
+  };
+
+  //Clicked on a header cell
+  jviz_table._tap_head_cell = function(e)
+  {
+    console.log(e.target.dataset.column);
+
+    //Check for shift key pressed
+    if(e.detail.sourceEvent.shiftKey === true)
+    {
+      //
+    }
+    else
+    {
+      console.log('shift not pressed');
+    }
+
+    //Sort the data
+    this._apply_sort();
+  };
+
+  //Clicked on a body cell
+  jviz_table._tap_body_cell = function(e)
+  {
+    console.log(e);
+  };
+
+  //Register the table element
+  Polymer(jviz_table);
+</script>
