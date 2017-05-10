@@ -404,7 +404,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._apply_sort = function()
   {
     //Check the sort keys
-    if(this._sort.length !== 0)
+    if(this._sort_keys.length !== 0)
     {
       //Save this
       var self = this;
@@ -608,7 +608,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       {
         //Display in console
         console.debug('Remove all sort keys');
-        
+
         //Reset the sort arrays
         this._clear_sort();
 
