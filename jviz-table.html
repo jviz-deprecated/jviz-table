@@ -140,7 +140,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
               <div class="cell checkbox"></div>
             </template>
             <template id="headerRow" is="dom-repeat" items="{{ _columns }}">
-              <div class="cell" data-column$="{{ item.key }}" on-tap="_tap_head_cell">
+              <div class="cell" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
                 {{ item.header }}
               </div>
             </template>
@@ -208,13 +208,13 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     var list = [];
 
     //Read all the columns
-    this.columns.forEach(function(col)
+    this.columns.forEach(function(col, index)
     {
       //Check if column is visible
       if(col.visible === false){ return; }
 
       //Save the column information
-      list.push({ header: col.header, key: col.key, sortable: col.sortable, parse: col.parse });
+      list.push({ header: col.header, index: index });
     });
 
     //Reset the columns list
@@ -245,10 +245,10 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._display_data = function(row_index, column_index)
   {
     //Get the column key
-    var column_key = this._columns[column_index].key;
+    var column_key = this.columns[column_index].key;
 
     //Get the column parse method
-    var column_parse = this._columns[column_index].parse;
+    var column_parse = this.columns[column_index].parse;
 
     //Get the real index
     //var index = this._keys_displayed[row_index];
@@ -568,16 +568,21 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Clicked on a header cell
   jviz_table._tap_head_cell = function(e)
   {
-    console.log(e.target.dataset.column);
+    //Display the column index in console
+    console.debug(e.target.dataset.index);
 
     //Check for shift key pressed
     if(e.detail.sourceEvent.shiftKey === true)
     {
-      //
+      //Display in console
+      console.debug('Shift pressed');
     }
     else
     {
-      console.log('shift not pressed');
+      //Display in console
+      console.debug('Shift not pressed');
+
+      //
     }
 
     //Sort the data
