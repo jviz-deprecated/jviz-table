@@ -140,7 +140,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
               <div class="cell checkbox"></div>
             </template>
             <template id="headerRow" is="dom-repeat" items="{{ _columns }}">
-              <div class="cell" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
+              <div class="cell" data-column$="{{ item.key }}" on-tap="_tap_head_cell">
                 {{ item.header }}
               </div>
             </template>
@@ -178,7 +178,8 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
 
   //Table private variables
-  jviz_table.properties._sort = { type: Array, value: [] };
+  jviz_table.properties._sort_keys = { type: Array, value: [] };
+  jviz_table.properties._sort_order = { type: Array, value: [] };
   jviz_table.properties._columns = { type: Array, value: [] };
   jviz_table.properties._keys_displayed = { type: Array, value: [] };
   jviz_table.properties._keys_selected = { type: Array, value: [] };
@@ -208,13 +209,13 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     var list = [];
 
     //Read all the columns
-    this.columns.forEach(function(col, index)
+    this.columns.forEach(function(col)
     {
       //Check if column is visible
       if(col.visible === false){ return; }
 
       //Save the column information
-      list.push({ header: col.header, index: index });
+      list.push({ header: col.header, key: col.key });
     });
 
     //Reset the columns list
@@ -367,6 +368,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Sort the data
   jviz_table.sort = function(conditions)
   {
+    //Save this
+    var self = this;
+
     //Check for undefined conditions
     if(typeof conditions !== 'object'){ var conditions = []; }
 
@@ -376,8 +380,21 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     //Clear the sort
     this._clear_sort();
 
-    //Save the sort conditions
-    this._sort = conditions;
+    //Reset the sort keys
+    this._reset_sort();
+
+    //Read all the conditions
+    conditions.forEach(function(el)
+    {
+      //Check if the key and the order is defined
+      if(typeof el.key !== 'string' || typeof el.order !== 'string'){ return; }
+
+      //Save the key value
+      self._sort_keys.push(el.key);
+
+      //Save the order value
+      self._sort_order.push(el.order);
+    });
 
     //Apply the sort conditions
     this._apply_sort();
@@ -398,14 +415,11 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         //Compare all keys
         for(var i = 0; i < self._sort.length; i++)
         {
-          //Get the column
-          var column = self._sort[i].column;
-
           //Get the column key
-          var key = self.columns[column].key;
+          var key = self._sort_keys[i];
 
           //Get the order
-          var order = self._sort[i].order;
+          var order = self._sort_order[i];
 
           //Check if que difference is numeric
           var numeric = !isNaN(+self.data[a][key] - +self.data[b][key]);
@@ -447,76 +461,61 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._clear_sort = function()
   {
     //Reset the sorted keys
-    this._reset_sort();
+    //this._reset_sort();
 
-    //Clear the sort conditions
-    this._sort = [];
-  };
+    //Clear the sort keys
+    this._sort_keys = [];
 
-  //Check if a sort key exists and return the index
-  jviz_table._index_sort_key = function(key)
-  {
-    //Initialize the index
-    var index = -1;
-
-    //Read all the columns
-    jviz.forEach(this._columns, function(column, column_index)
-    {
-      //Check the key
-      if(column.key !== key){ return true; }
-
-      //Save the index
-      index = column_index;
-
-      //Exit loop
-      return false;
-    });
-
-    //Return the index
-    return index;
+    //Clear the sort order
+    this._sort_order = [];
   };
 
   //Add a new sort key
-  jviz_table._add_sort_key = function(key)
+  jviz_table._add_sort = function(key)
   {
-    //Get the key index
-    var index = this._index_sort_key(key);
+    //Save the key
+    this._sort_keys.push(key);
 
-    //Check for index not found
-    if(index === -1)
-    {
-      //Add the new object
-      this._sort.push({ key: key, order: 'asc' });
-    }
-    else
-    {
-      //Update the order
-    }
+    //Add the order value
+    this._sort_order('asc');
   };
 
   //Change the sort order for a key
-  jviz_table._change_sort_key = function(key)
+  jviz_table._change_sort = function(key)
   {
+    //Get the key index
+    var index = this._sort_keys.indexOf(key);
 
+    //Check for not found
+    if(index === -1){ return false; }
+
+    //Change the order
+    if(this._sort_order[index] === 'asc')
+    {
+      //Change the order to desc
+      this._sort_order[index] = 'desc';
+    }
+    else
+    {
+      //Remove the item
+      this._remove_sort(key);
+    }
   };
 
   //Remove a sort key
-  jviz_table._remove_sort_key = function(key)
+  jviz_table._remove_sort = function(key)
   {
     //Get the index
-    var index = this._index_sort_key(key);
+    var index = this._sort_keys.indexOf(key);
 
     //Check for not found
     if(index === -1){ return; }
 
-    //Remove from the array
-    this._sort.splice(index, 1);
-  };
+    //Remove from the keys array
+    this._sort_keys.splice(index, 1);
 
-  //Update the order value
-  jviz_table._update_order = function(value)
-  {
-
+    //Remove from the order array
+    this._sort_order.splice(index, 1);
   };
 
   //Filter the data
@@ -569,7 +568,13 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._tap_head_cell = function(e)
   {
     //Display the column index in console
-    console.debug(e.target.dataset.index);
+    console.debug(e.target.dataset.column);
+
+    //Get the column key value
+    var column_key = e.target.dataset.column;
+
+    //Check if exists
+    var column_exists = this._sort_keys.indexOf(column_key) !== -1;
 
     //Check for shift key pressed
     if(e.detail.sourceEvent.shiftKey === true)
@@ -582,7 +587,34 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       //Display in console
       console.debug('Shift not pressed');
 
-      //
+      //Check the number of keys sorted
+      if(this._sort_keys.length === 0)
+      {
+        //Display in console
+        console.debug('Sort is empty. Adding ' + column_key);
+
+        //Add the new sort key
+        this._add_sort(column_key);
+      }
+      else if(this._sort_keys.length === 1 && column_exists === true)
+      {
+        //Display in console
+        console.debug('Sort key ' + column_key + ' exists, change the key order...');
+
+        //Change the key order
+        this._change_sort(column_key);
+      }
+      else
+      {
+        //Display in console
+        console.debug('Remove all sort keys');
+        
+        //Reset the sort arrays
+        this._clear_sort();
+
+        //Add the new sort key
+        this._add_sort(column_key);
+      }
     }
 
     //Sort the data
