@@ -579,6 +579,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     //Get the column index
     var column_index = e.target.dataset.index;
 
+    //Check if this column is sortable
+    if(this.columns[column_index].sortable === false){ return; } 
+
     //Check if exists
     var column_exists = this._sort_keys.indexOf(column_key) !== -1;
 
