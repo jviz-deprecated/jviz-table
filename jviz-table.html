@@ -474,6 +474,19 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       });
     }
 
+    //Display the sort images
+    this._images_sort();
+
+    //Display again the data
+    this._display();
+  };
+
+  //Display the sort images
+  jviz_table._images_sort = function()
+  {
+    //Save this
+    var self = this;
+
     //Iterate over all sortable and visible columns
     this.$.head.querySelectorAll('.sortable').forEach(function(col)
     {
@@ -504,9 +517,6 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         col.classList.add('order-' + self._sort_order[index]);
       }
     });
-
-    //Display again the data
-    this._display();
   };
 
   //Reset the sort
