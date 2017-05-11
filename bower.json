@@ -7,7 +7,9 @@
     "polymer": "Polymer/polymer#^1.4.0",
     "jviz": "jviz/jviz#dev",
     "jviz-styles": "jviz/jviz-styles#dev",
-    "jviz-checkbox": "jviz/jviz-checkbox#dev"
+    "jviz-checkbox": "jviz/jviz-checkbox#dev",
+    "jviz-input": "jviz/jviz-input#dev",
+    "jviz-select": "jviz/jviz-select#dev"
   },
   "license": "MIT",
   "authors": [ "Josemi Juanes <josemijuanes@gmail.com>" ],
