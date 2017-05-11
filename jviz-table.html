@@ -78,6 +78,24 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         cursor: pointer;
         padding: 10px;
       }
+      :host .head .sortable
+      {
+        background-size: 15px 30px;
+        background-position: right center;
+        background-repeat: no-repeat;
+      }
+      :host .head .order-none
+      {
+        background-image: url('./img/tab_order_none.svg');
+      }
+      :host .head .order-asc
+      {
+        background-image: url('./img/tab_order_asc.svg');
+      }
+      :host .head .order-desc
+      {
+        background-image: url('./img/tab_order_desc.svg');
+      }
 
       /* Checkbox cell */
       :host .head .checkbox
@@ -141,7 +159,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
             </template>
             <template id="headerRow" is="dom-repeat" items="{{ _columns }}">
               <template is="dom-if" if="{{ item.sortable }}">
-                <div class="cell sortable" data-key$="{{ item.key }}" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
+                <div class="cell sortable order-none" data-key$="{{ item.key }}" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
                   {{ item.header }}
                 </div>
               </template>
@@ -410,15 +428,15 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Sort the data
   jviz_table._apply_sort = function()
   {
+    //Save this
+    var self = this;
+
     //Reset the keys order
     this._reset_sort();
 
     //Check the sort keys
     if(this._sort_keys.length !== 0)
     {
-      //Save this
-      var self = this;
-
       //Sort the order array
       this._keys_sorted.sort(function(a, b)
       {
@@ -455,6 +473,37 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         return 0;
       });
     }
+
+    //Iterate over all sortable and visible columns
+    this.$.head.querySelectorAll('.sortable').forEach(function(col)
+    {
+      //Remove the asc order
+      col.classList.remove('order-asc');
+
+      //Remove the desc order
+      col.classList.remove('order-desc');
+
+      //Get the column key
+      var key = col.dataset.key;
+
+      //Get the key index in the sort array
+      var index = self._sort_keys.indexOf(key);
+
+      //Check if key exists
+      if(index === -1)
+      {
+        //Add the none order
+        col.classList.add('order-none');
+      }
+      else
+      {
+        //Remove the order none
+        col.classList.remove('order-none');
+
+        //Add the order
+        col.classList.add('order-' + self._sort_order[index]);
+      }
+    });
 
     //Display again the data
     this._display();
