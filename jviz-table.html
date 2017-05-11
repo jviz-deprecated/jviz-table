@@ -227,6 +227,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Update the columns
   jviz_table._update_columns = function()
   {
+    //Save this
+    var self = this;
+
     //Display in console
     console.debug('Update columns information');
 
@@ -245,6 +248,13 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 
     //Reset the columns list
     this._columns = list;
+
+    //Update the columns images
+    jviz.time_out(50, function()
+    {
+      //Update the columns images
+      return self._images_sort();
+    });
   };
 
   //Update the data
