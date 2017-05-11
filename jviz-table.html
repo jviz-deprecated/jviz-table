@@ -140,9 +140,16 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
               <div class="cell checkbox"></div>
             </template>
             <template id="headerRow" is="dom-repeat" items="{{ _columns }}">
-              <div class="cell" data-key$="{{ item.key }}" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
-                {{ item.header }}
-              </div>
+              <template is="dom-if" if="{{ item.sortable }}">
+                <div class="cell sortable" data-key$="{{ item.key }}" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
+                  {{ item.header }}
+                </div>
+              </template>
+              <template is="dom-if" if="{{ !item.sortable }}">
+                <div class="cell" data-key$="{{ item.key }}" data-index$="{{ item.index }}" on-tap="_tap_head_cell">
+                  {{ item.header }}
+                </div>
+              </template>
             </template>
           </div>
         </div>
@@ -215,7 +222,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       if(col.visible === false){ return; }
 
       //Save the column information
-      list.push({ header: col.header, key: col.key, index: index });
+      list.push({ header: col.header, key: col.key, sortable: col.sortable, index: index });
     });
 
     //Reset the columns list
