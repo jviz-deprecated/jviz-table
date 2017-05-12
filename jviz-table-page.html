@@ -1,0 +1,81 @@
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+
+<!-- Import dependencies -->
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../jviz/jviz.html">
+<link rel="import" href="../jviz-styles/jviz-styles.html">
+<link rel="import" href="../jviz-input/jviz-input.html">
+<link rel="import" href="../jviz-select/jviz-select.html">
+
+<!-- Page control element -->
+<dom-module id="jviz-table-page">
+  <template>
+    <style>
+      :host
+      {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+    <jviz-select id="entries" width="100px"></jviz-select>
+  </template>
+</dom-module>
+
+<!-- Page control logic -->
+<script>
+  //Initialize the table page control object
+  var jviz_table_page = { is: 'jviz-table-page' };
+
+  //Page properties
+  jviz_table_page.properties = {};
+  jviz_table_page.properties.entries = { type: Number, reflectToAttribute: true, observer: '_update_entries' };
+  jviz_table_page.properties.page = { type: Number, reflectToAttribute: true, observer: '_update_page', value: 0 };
+
+  //Update the entries
+  jviz_table_page._update_entries = function(value)
+  {
+    //Initialize the entries list
+    var entries = [];
+
+    //Split the entries by comma
+    value.split(',').forEach(function(el, index)
+    {
+      //Initialize the option object
+      var obj = { value: el, text: el, selected: false };
+
+      //Check for -1 value
+      if(value === '-1'){ obj.text = 'All'; }
+    });
+
+    //Update the entries values
+    this.$.entries.options = entries;
+  };
+
+  //Update the actual page
+  jviz_table_page._update_page = function(value)
+  {
+
+  };
+
+  //Next page
+  jviz_table_page.page_next = function()
+  {
+
+  };
+
+  //Prev page
+  jviz_table_page.page_prev = function()
+  {
+
+  };
+
+  //Register the table page element
+  Polymer(jviz_table_page);
+</script>
+
