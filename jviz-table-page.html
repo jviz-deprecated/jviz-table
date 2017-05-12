@@ -23,10 +23,19 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         margin-top: 10px;
         margin-bottom: 10px;
       }
+      :host .counter
+      {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        font-weight: bold;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
     </style>
     <jviz-select id="entries" width="100px"></jviz-select>
     <jviz-btn color="grey" icon="chevron_left" text="Prev" on-tap="page_prev"></jviz-btn>
-
+    <div id="counter" class="counter">Page {{ page }} of {{ total }}</div>
     <jviz-btn color="grey" icon="chevron_right" text="Next" on-tap="page_next"></jviz-btn>
   </template>
 </dom-module>
@@ -39,7 +48,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Page properties
   jviz_table_page.properties = {};
   jviz_table_page.properties.entries = { type: Number, reflectToAttribute: true, observer: '_update_entries' };
-  jviz_table_page.properties.page = { type: Number, reflectToAttribute: true, observer: '_update_page', value: 0 };
+  jviz_table_page.properties.page = { type: Number, reflectToAttribute: true, observer: '_update_page', value: 1 };
+  jviz_table_page.properties.total = { type: Number, reflectToAttribute: true, value: 1 };
+
 
   //Update the entries
   jviz_table_page._update_entries = function(value)
