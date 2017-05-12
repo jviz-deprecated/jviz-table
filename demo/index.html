@@ -1,37 +1,36 @@
-<!-- Styles -->
-<link rel="stylesheet" type="text/css" href="./build/font.css">
-<link rel="stylesheet" type="text/css" href="./build/jviz.css">
-<link rel="stylesheet" type="text/css" href="./build/jviz-default.css">
-<link rel="stylesheet" type="text/css" href="./build/table.css">
-<!-- JavaScript -->
-<script type="text/javascript" src="./build/vendor/jquery.min.js"></script>
-<script type="text/javascript" src="./build/jviz.js"></script>
-<script type="text/javascript" src="./build/table.js"></script>
+<!--
+@license
+Copyright (c) 2016 The Jviz Project Authors. All rights reserved.
+The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob/dev/LICENSE
+-->
+
+<!-- Import components -->
+<link rel="import" href="../jviz-table.html">
+
 <!-- Test style -->
 <style> body { padding: 50px !important; } </style>
-<style> .test { background-color: #5dc1ef !important; } </style>
+
+<!-- Test table -->
+<jviz-table id="test" selectable>
+  <jviz-table-column key="key1" header="Cell 1" sortable visible></jviz-table-column>
+  <jviz-table-column key="key2" header="Cell 2" sortable visible></jviz-table-column>
+  <jviz-table-column key="key3" header="Cell 3" visible></jviz-table-column>
+  <jviz-table-page></jviz-table-page>
+</jviz-table>
+
 <!-- Test scripts -->
 <script type="text/javascript">
   //Table element
-  var t = null;
+  var el = null;
 
   //Document ready function
   jviz.dom.ready(function()
   {
-    //Table options
-    var opt = { parent: 'test', id: 'myTable' };
-
-    //Columns
-    opt.columns =
-    [
-      { type: 'checkbox' },
-      { type: 'default', title: 'Cell 1', key: 'key1', orderable: true },
-      { type: 'default', title: 'Cell 2', key: 'key2', orderable: true },
-      { type: 'default', title: 'Cell 3', key: 'key3' }
-    ];
+    //Get the table element
+    el = jviz.dom.id('test');
 
     //Data
-    opt.data =
+    el.data =
     [
       { key1: 0, key2: 'x', key3: '0' },
       { key1: 3, key2: 'v', key3: '1' },
@@ -48,8 +47,9 @@
     ];
 
     //Entries option
-    opt.entries = { list: [ -1, 5, 10, 20 ], default: 5 };
+    //opt.entries = { list: [ -1, 5, 10, 20 ], default: 5 };
 
+    /*
     //Initialize the table
     t = new jviz.modules.table(opt);
 
@@ -64,7 +64,6 @@
 
     //Add the uncheck all event
     t.on('uncheck:all', function(){ console.info('Unchecked all'); });
+    */
   });
 </script>
-<!-- Test div -->
-<div id="test"></div>
