@@ -22,21 +22,29 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         width: 100%;
         margin-top: 10px;
         margin-bottom: 10px;
+        float: right;
       }
       :host .text
       {
         display: inline-block;
         height: 30px;
         line-height: 30px;
-        padding-left: 15px;
-        padding-right: 15px;
         vertical-align: top;
       }
+      :host .text-rows
+      {
+        padding-right: 10px;
+      }
+      :host .text-page
+      {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
     </style>
-    <div class="text">Rows per page:</div>
+    <div class="text text-rows">Rows per page:</div>
     <jviz-select id="entries" width="100px"></jviz-select>
     <jviz-btn color="grey" icon="chevron_left" text="Prev" on-tap="page_prev" icon-align="left"></jviz-btn>
-    <div id="counter" class="text">Page <b>{{ page }}</b> of <b>{{ total }}</b></div>
+    <div id="counter" class="text text-page">Page <b>{{ page }}</b> of <b>{{ total }}</b></div>
     <jviz-btn color="grey" icon="chevron_right" text="Next" on-tap="page_next" icon-align="right"></jviz-btn>
   </template>
 </dom-module>
