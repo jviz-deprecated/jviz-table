@@ -23,7 +23,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         margin-top: 10px;
         margin-bottom: 10px;
       }
-      :host .counter
+      :host .text
       {
         display: inline-block;
         height: 30px;
@@ -33,9 +33,10 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         vertical-align: top;
       }
     </style>
+    <div class="text">Rows per page:</div>
     <jviz-select id="entries" width="100px"></jviz-select>
     <jviz-btn color="grey" icon="chevron_left" text="Prev" on-tap="page_prev"></jviz-btn>
-    <div id="counter" class="counter">Page <b>{{ page }}</b> of <b>{{ total }}</b></div>
+    <div id="counter" class="text">Page <b>{{ page }}</b> of <b>{{ total }}</b></div>
     <jviz-btn color="grey" icon="chevron_right" text="Next" on-tap="page_next"></jviz-btn>
   </template>
 </dom-module>
