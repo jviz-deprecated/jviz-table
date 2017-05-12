@@ -7,6 +7,7 @@
     "polymer": "Polymer/polymer#^1.4.0",
     "jviz": "jviz/jviz#dev",
     "jviz-styles": "jviz/jviz-styles#dev",
+    "jviz-btn": "jviz/jviz-btn#dev",
     "jviz-checkbox": "jviz/jviz-checkbox#dev",
     "jviz-input": "jviz/jviz-input#dev",
     "jviz-select": "jviz/jviz-select#dev"
