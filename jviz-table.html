@@ -625,6 +625,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       self._keys_filtered.push(index);
     });
 
+    //Save the number of rows
+    this._rows = this._keys_filtered.length;
+
     //Reset the sorted keys
     //this._reset_sort();
 
@@ -638,6 +641,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     //Clear the filter keys
     //this._keys_filtered = Array.apply(null, Array(this.data.length)).map(function(v, i){ return i; });
     this._keys_filtered = jviz.array.range(0, this.data.length - 1, 1);
+
+    //Save the number of rows
+    this._rows = this._keys_filtered.length;
 
     //Reset the sorted keys
     this._reset_sort();
