@@ -267,6 +267,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Table public api
   jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
   jviz_table.properties.header = { type: String, reflectToAttribute: true };
+  jviz_table.properties.default = { type: String, value: ''};
   jviz_table.properties.rows = { type: Number, value: 0 };
   jviz_table.properties.pageSize = { type: Number, reflectToAttribute: true, value: 5, observer: '_update_page_size' };
   jviz_table.properties.page = { type: Number, reflectToAttribute: true, value: 1, observer: '_update_page' };
@@ -425,7 +426,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     //var index = this._keys_displayed[row_index];
 
     //Get the data value
-    var value = (typeof this.data[row_index][column_key] === 'undefined') ? '' : this.data[row_index][column_key];
+    var value = (typeof this.data[row_index][column_key] === 'undefined') ? this.default : this.data[row_index][column_key];
 
     //Check if the parse method is defined
     if(column_parse)
