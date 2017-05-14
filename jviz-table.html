@@ -872,7 +872,29 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Clicked on a body cell
   jviz_table._tap_body_cell = function(e)
   {
-    console.log(e);
+    //Get the cell div
+    var cell = e.path[0];
+
+    //Check for undefined dataset row and column
+    if(typeof cell.dataset.row === 'undefined' || typeof cell.dataset.column === 'undefined'){ return; }
+
+    //Get the row index
+    var row_index = parseInt(cell.dataset.row);
+
+    //Get the row data
+    var row_data = this.data[row_index];
+
+    //Get the column index
+    var column_index = parseInt(cell.dataset.column);
+
+    //Get the column key
+    var column_key = this.columns[column_index].key;
+
+    //Get the value
+    var value = row_data[column_key];
+
+    //Emit the tap cell
+    this.fire('tap:body:cell', { value: value, row: row_data, column: column_key, row_index: row_index, column_index: column_index });
   };
 
   //Next page
