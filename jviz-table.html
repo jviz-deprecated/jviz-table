@@ -320,7 +320,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     if(typeof start !== 'number'){ var start = 0; }
 
     //Check for no end position
-    if(typeof end !== 'number'){ var end = this.data.length - 1; }
+    if(typeof end !== 'number'){ var end = this._rows - 1; }
 
     //Check the start value
     if(start < 0){ start = 0; }
@@ -351,7 +351,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       var start = Math.max(0, this._rows_start);
 
       //Get the computed end position
-      var end = Math.min(this._keys_sorted.length - 1, this._rows_end);
+      var end = Math.min(this._rows - 1, this._rows_end);
 
       //Display in console (debug)
       console.log('Draw ' + start + ' - ' + end);
