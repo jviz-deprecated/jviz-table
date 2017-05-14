@@ -11,18 +11,16 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 
 <!-- Import table components -->
 <link rel="import" href="./jviz-table-column.html">
+<link rel="import" href="./jviz-table-page.html">
 
 <!-- Table component -->
 <dom-module id="jviz-table">
   <template>
     <style>
-      /* Host variables */
       :host
       {
 
       }
-
-      /* Table container */
       :host .main
       {
         display: block;
@@ -147,7 +145,10 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       :host .body .row:last-of-type .cell:last-of-type { border-bottom-right-radius: 5px !important; }
     </style>
     <!-- Columns -->
-    <content is="jviz-table-column"></content>
+    <content select="jviz-table-column"></content>
+    <div class="header">
+      <div class=""></div>
+    </div>
     <div id="main" class="main">
       <!-- Table container -->
       <div id="table" class="table">
@@ -189,7 +190,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       </div>
     </div>
     <!-- Page control -->
-    <content is="jviz-table-page"></content>
+    <content select="jviz-table-page"></content>
   </template>
 </dom-module>
 
@@ -201,6 +202,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Properties
   jviz_table.properties = {};
   jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
+  jviz_table.properties.header = { type: String, reflectToAttribute: true };
 
   //Table private variables
   jviz_table.properties._sort_keys = { type: Array, value: [] };
@@ -210,8 +212,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties._keys_selected = { type: Array, value: [] };
   jviz_table.properties._keys_filtered = { type: Array, value: [] };
   jviz_table.properties._keys_sorted = { type: Array, value: [] };
-  jviz_table.properties._display_start = { type: Number, value: 0 };
-  jviz_table.properties._display_end = { type: Number, value: 0 };
+  jviz_table.properties._rows = { type: Number, value: 0 };
+  jviz_table.properties._rows_start = { type: Number, value: 0 };
+  jviz_table.properties._rows_end = { type: Number, value: 0 };
 
   //Table public variables
   jviz_table.properties.columns = { type: Array, value: [], observer: '_update_columns' };
@@ -326,10 +329,10 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     if(end < 0){ end = 0; }
 
     //Save the start value
-    this._display_start = Math.min(start, end);
+    this._rows_start = Math.min(start, end);
 
     //Save the end value
-    this._display_end = Math.max(start, end);
+    this._rows_end = Math.max(start, end);
 
     //Display the data
     this._display();
@@ -345,10 +348,10 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     if(this.data.length > 0)
     {
       //Get the computed start position
-      var start = Math.max(0, this._display_start);
+      var start = Math.max(0, this._rows_start);
 
       //Get the computed end position
-      var end = Math.min(this._keys_sorted.length - 1, this._display_end);
+      var end = Math.min(this._keys_sorted.length - 1, this._rows_end);
 
       //Display in console (debug)
       console.log('Draw ' + start + ' - ' + end);
