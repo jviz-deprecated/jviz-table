@@ -218,7 +218,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
               </template>
               <template is="dom-repeat" items="{{ _columns }}" as="column" index-as="column_index">
                 <div class="cell" data-row$="{{ row }}" data-column$="{{ column_index }}" on-tap="_tap_body_cell">
-                  {{ value(row, column) }}
+                  {{ value(row, column.key) }}
                 </div>
               </template>
             </div>
