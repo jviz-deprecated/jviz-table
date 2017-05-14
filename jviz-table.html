@@ -78,6 +78,14 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         cursor: pointer;
         padding: 10px;
       }
+      :host .head .cell:first-of-type
+      {
+        border-top-left-radius: 5px !important;
+      }
+      :host .head .cell:last-of-type
+      {
+        border-top-right-radius: 5px !important;
+      }
       :host .head .sortable
       {
         background-size: 15px 30px;
@@ -96,8 +104,6 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       {
         background-image: url('./img/tab_order_desc.svg');
       }
-
-      /* Checkbox cell */
       :host .head .checkbox
       {
         width: 26px;
@@ -106,12 +112,6 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         padding-top: 12px;
         padding-bottom: 12px;
       }
-
-      /* First head cell */
-      :host .head .cell:first-of-type { border-top-left-radius: 5px !important; }
-
-      /* Last head cell */
-      :host .head .cell:last-of-type { border-top-right-radius: 5px !important; }
 
       /* Table body */
       :host .body
@@ -125,12 +125,14 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         display: table-row;
         transition: all 0.3s;
       }
-
-      /* Table body even rows */
-      :host .body .row:nth-child(even) { background-color: var(--jviz-grey-4); }
-
-      /* Table row odd rows */
-      :host .body .row:nth-child(odd) { background-color: var(--jviz-grey-3); }
+      :host .body .row:nth-child(even)
+      {
+        background-color: var(--jviz-grey-4);
+      }
+      :host .body .row:nth-child(odd)
+      {
+        background-color: var(--jviz-grey-3);
+      }
 
       /* Table body cell */
       :host .body .row .cell
@@ -139,12 +141,14 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         transition: all 0.3s;
         padding: 10px;
       }
-
-      /* Table body last row first cell */
-      :host .body .row:last-of-type .cell:first-of-type { border-bottom-left-radius: 5px !important; }
-
-      /* Table body last row last cell */
-      :host .body .row:last-of-type .cell:last-of-type { border-bottom-right-radius: 5px !important; }
+      :host .body .row:last-of-type .cell:first-of-type
+      {
+        border-bottom-left-radius: 5px !important;
+      }
+      :host .body .row:last-of-type .cell:last-of-type
+      {
+        border-bottom-right-radius: 5px !important;
+      }
       
       /* Page control */
       :host .page
