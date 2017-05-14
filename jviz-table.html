@@ -8,10 +8,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../jviz/jviz.html">
 <link rel="import" href="../jviz-styles/jviz-styles.html">
+<link rel="import" href="../jviz-btn/jviz-btn.html">
+<link rel="import" href="../jviz-input/jviz-input.html">
+<link rel="import" href="../jviz-select/jviz-select.html">
 
 <!-- Import table components -->
 <link rel="import" href="./jviz-table-column.html">
-<link rel="import" href="./jviz-table-page.html">
 
 <!-- Table component -->
 <dom-module id="jviz-table">
@@ -143,6 +145,41 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 
       /* Table body last row last cell */
       :host .body .row:last-of-type .cell:last-of-type { border-bottom-right-radius: 5px !important; }
+      
+      /* Page control */
+      :host .page
+      {
+        display: block;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      :host .page .content
+      {
+        display: inline-block;
+        float: right;
+      }
+      :host .page .text
+      {
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        vertical-align: top;
+      }
+      :host .page .text-rows
+      {
+        padding-right: 5px;
+      }
+      :host .page .text-page
+      {
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+      :host .page .space
+      {
+        display: inline-block;
+        width: 15px;
+      }
     </style>
     <!-- Columns -->
     <content select="jviz-table-column"></content>
@@ -190,7 +227,19 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       </div>
     </div>
     <!-- Page control -->
-    <content select="jviz-table-page"></content>
+    <div class="page">
+      <div class="content">
+        <div class="text text-rows">Rows per page:</div>
+        <jviz-select id="entries" width="60px">
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </jviz-select>
+        <div class="space"></div>
+        <jviz-btn color="grey" icon="chevron_left" text="Prev" on-tap="prev_page" icon-align="left"></jviz-btn>
+        <div class="text text-page">Page <b>{{ page }}</b> of <b>{{ _page_end }}</b></div>
+        <jviz-btn color="grey" icon="chevron_right" text="Next" on-tap="next_page" icon-align="right"></jviz-btn>
+      </div>
+    </div>
   </template>
 </dom-module>
 
@@ -201,10 +250,8 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 
   //Properties
   jviz_table.properties = {};
-  jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
-  jviz_table.properties.header = { type: String, reflectToAttribute: true };
 
-  //Table private variables
+  //Table private properties
   jviz_table.properties._sort_keys = { type: Array, value: [] };
   jviz_table.properties._sort_order = { type: Array, value: [] };
   jviz_table.properties._columns = { type: Array, value: [] };
@@ -212,19 +259,41 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties._keys_selected = { type: Array, value: [] };
   jviz_table.properties._keys_filtered = { type: Array, value: [] };
   jviz_table.properties._keys_sorted = { type: Array, value: [] };
-  jviz_table.properties._rows = { type: Number, value: 0 };
   jviz_table.properties._row_start = { type: Number, value: 0 };
   jviz_table.properties._row_end = { type: Number, value: 0 };
+  jviz_table.properties._page_start = { type: Number, value: 1 };
+  jviz_table.properties._page_end = { type: Number, value: 1 };
 
-  //Table public variables
+  //Table public api
+  jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
+  jviz_table.properties.header = { type: String, reflectToAttribute: true };
+  jviz_table.properties.rows = { type: Number, value: 0 };
+  jviz_table.properties.pageSize = { type: Number, reflectToAttribute: true, value: 5 };
+  jviz_table.properties.page = { type: Number, reflectToAttribute: true, value: 1, observer: '_update_page' };
+  jviz_table.properties.pageEntries = { type: String, reflectToAttribute: true, value: '5,10,20', observer: '_update_page_entries' };
+
+  //Table public lists
   jviz_table.properties.columns = { type: Array, value: [], observer: '_update_columns' };
   jviz_table.properties.data = { type: Array, value: [], observer: '_update_data' };
+
+  //Observers
+  jviz_table.observers = [ '_calculate_pages(rows, pageSize)' ];
 
   //Table is attached
   jviz_table.attached = function()
   {
+    //Save this
+    var self = this;
+
     //Save the actual columns
     this.columns = this.queryAllEffectiveChildren('jviz-table-column');
+
+    //Add the entries event listener
+    this.$.entries.addEventListener('change:value', function()
+    {
+      //Update the page size
+      self.pageSize = parseInt(self.$.entries.value);
+    });
   };
 
   //Update the columns
@@ -276,8 +345,64 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     if(event.defaultPrevented === false)
     {
       //Display all the data
-      this.display(0, this.data.length - 1);
+      //this.display(0, this.data.length - 1);
+      this.page = 1;
     }
+  };
+
+  //Update the entries number
+  jviz_table._update_page_entries = function(value)
+  {
+    //Initialize the entries list
+    var entries = [];
+
+    //Split the entries by comma
+    value.split(',').forEach(function(el)
+    {
+      //Initialize the option object
+      var obj = { value: el, text: el, selected: false };
+
+      //Save the option to the entries list
+      entries.push(obj);
+    });
+
+    //Update the entries values
+    this.$.entries.options = entries;
+
+    //Get the first value
+    this.pageSize = parseInt(entries[0].value);
+  };
+
+  //Calculate the number of pages
+  jviz_table._calculate_pages = function()
+  {
+    //Calculate the number of pages
+    this._page_end = this.rows / this.pageSize;
+
+    //Parse the number of pages
+    this._page_end = (Math.floor(this._page_end) === this._page_end) ? this._page_end : Math.floor(this._page_end) + 1;
+
+    //Check for empty page
+    if(this._page_end === 0){ this._page_end = 1; }
+
+    //Reset the actual page
+    this.page = 1;
+
+    //Update the actual page
+    this._update_page();
+  };
+
+  //Update the actual page
+  jviz_table._update_page = function()
+  {
+    //Get the start position
+    var start = (this.page - 1) * this.pageSize;
+
+    //Get the end position
+    var end = (this.page) * this.pageSize - 1;
+
+    //Display the data
+    this.display(start, end);
   };
 
   //Display the data value
@@ -320,7 +445,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     if(typeof start !== 'number'){ var start = 0; }
 
     //Check for no end position
-    if(typeof end !== 'number'){ var end = this._rows - 1; }
+    if(typeof end !== 'number'){ var end = this.rows - 1; }
 
     //Check the start value
     if(start < 0){ start = 0; }
@@ -341,6 +466,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Display the data
   jviz_table._display = function()
   {
+    //Check if data exists
+    if(typeof this.data !== 'object'){ return; }
+
     //Reset the displayed keys
     this._keys_displayed = [];
 
@@ -351,7 +479,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
       var start = Math.max(0, this._row_start);
 
       //Get the computed end position
-      var end = Math.min(this._rows - 1, this._row_end);
+      var end = Math.min(this.rows - 1, this._row_end);
 
       //Display in console (debug)
       console.log('Draw ' + start + ' - ' + end);
@@ -626,7 +754,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     });
 
     //Save the number of rows
-    this._rows = this._keys_filtered.length;
+    this.rows = this._keys_filtered.length;
 
     //Reset the sorted keys
     //this._reset_sort();
@@ -643,7 +771,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     this._keys_filtered = jviz.array.range(0, this.data.length - 1, 1);
 
     //Save the number of rows
-    this._rows = this._keys_filtered.length;
+    this.rows = this._keys_filtered.length;
 
     //Reset the sorted keys
     this._reset_sort();
@@ -737,6 +865,20 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._tap_body_cell = function(e)
   {
     console.log(e);
+  };
+
+  //Next page
+  jviz_table.next_page = function()
+  {
+    //Check the page
+    this.page = (this._page_end <= this.page) ? this._page_end : this.page + 1;
+  };
+
+  //Prev page
+  jviz_table.prev_page = function()
+  {
+    //Check the page
+    this.page = (this.page <= this._page_start) ? this._page_start : this.page - 1;
   };
 
   //Register the table element
