@@ -263,7 +263,6 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         <div class="text text-rows">Rows per page:</div>
         <jviz-select id="entries" width="60px">
           <option value="10">10</option>
-          <option value="20">20</option>
         </jviz-select>
         <div class="space"></div>
         <jviz-btn color="grey" icon="chevron_left" text="Prev" on-tap="prev_page" icon-align="left"></jviz-btn>
@@ -300,7 +299,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties.rows = { type: Number, value: 0 };
   jviz_table.properties.pageSize = { type: Number, reflectToAttribute: true, value: 10, observer: '_update_page_size' };
   jviz_table.properties.page = { type: Number, reflectToAttribute: true, value: 1, observer: '_update_page' };
-  jviz_table.properties.pageEntries = { type: String, reflectToAttribute: true, observer: '_update_page_entries' };
+  jviz_table.properties.pageEntries = { type: String, reflectToAttribute: true, value: '10', observer: '_update_page_entries' };
 
   //Table public lists
   jviz_table.properties.columns = { type: Array, value: [], observer: '_update_columns' };
