@@ -308,7 +308,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties.data = { type: Array, value: [], observer: '_update_data' };
 
   //Observers
-  jviz_table.observers = [ '_calculate_pages(rows, pageSize)' ];
+  jviz_table.observers = [ '_get_pages(rows, pageSize)' ];
 
   //Table is attached
   jviz_table.attached = function()
@@ -412,7 +412,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   };
 
   //Calculate the number of pages
-  jviz_table._calculate_pages = function()
+  jviz_table._get_pages = function()
   {
     //Calculate the number of pages
     this._page_end = this.rows / this.pageSize;
@@ -423,11 +423,17 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     //Check for empty page
     if(this._page_end === 0){ this._page_end = 1; }
 
-    //Reset the actual page
-    this.page = 1;
-
-    //Update the actual page
-    this._update_page();
+    //Check the actual page
+    if(this.page === 1)
+    {
+      //Update the actual page
+      this._update_page();
+    }
+    else
+    {
+      //Reset the actual page
+      this.page = 1;
+    }
   };
 
   //Update the actual page
