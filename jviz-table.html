@@ -255,7 +255,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     <div class="page">
       <div class="content-left">
         <div class="text text-rows">
-          Showing <b>{{ _get_range_start(page, pageSize, rows) }}</b> to 
+          Showing <b>{{ _get_range_start(page, pageSize, rows) }}</b> to
           <b>{{ _get_range_end(page, pageSize, rows) }}</b> of <b>{{ rows }}</b> rows.
         </div>
       </div>
@@ -399,8 +399,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     //Update the entries values
     this.$.entries.options = entries;
 
-    //Get the first value
-    this.pageSize = parseInt(entries[0].value);
+    //Check the number of entries
+    if(entries.length > 0)
+    {
+      //Set the page size as the first entry value
+      this.pageSize = parseInt(entries[0].value);
+    }
   };
 
   //Update the page size
