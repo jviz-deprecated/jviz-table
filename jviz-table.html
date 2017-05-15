@@ -19,10 +19,17 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 <dom-module id="jviz-table">
   <template>
     <style>
-      :host
+      /* Table header */
+      :host .header
       {
-
+        display: block;
       }
+      :host .header .title
+      {
+        @apply --jviz-heading-3;
+      }
+
+      /* Main table container */
       :host .main
       {
         display: block;
@@ -193,7 +200,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     <!-- Columns -->
     <content select="jviz-table-column"></content>
     <div class="header">
-      <div class=""></div>
+      <div class="title">{{ header }}</div>
     </div>
     <div id="main" class="main">
       <!-- Table container -->
