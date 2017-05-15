@@ -298,9 +298,9 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties.header = { type: String, reflectToAttribute: true };
   jviz_table.properties.default = { type: String, reflectToAttribute: true, value: '' };
   jviz_table.properties.rows = { type: Number, value: 0 };
-  jviz_table.properties.pageSize = { type: Number, reflectToAttribute: true, value: 5, observer: '_update_page_size' };
+  jviz_table.properties.pageSize = { type: Number, reflectToAttribute: true, value: 10, observer: '_update_page_size' };
   jviz_table.properties.page = { type: Number, reflectToAttribute: true, value: 1, observer: '_update_page' };
-  jviz_table.properties.pageEntries = { type: String, reflectToAttribute: true, value: '5,10,20', observer: '_update_page_entries' };
+  jviz_table.properties.pageEntries = { type: String, reflectToAttribute: true, observer: '_update_page_entries' };
 
   //Table public lists
   jviz_table.properties.columns = { type: Array, value: [], observer: '_update_columns' };
