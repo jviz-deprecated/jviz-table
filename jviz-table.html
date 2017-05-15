@@ -158,7 +158,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
         margin-top: 10px;
         margin-bottom: 10px;
       }
-      :host .page .content
+      :host .page .content-left
+      {
+        display: inline-block;
+        float: left;
+      }
+      :host .page .content-right
       {
         display: inline-block;
         float: right;
@@ -232,7 +237,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     </div>
     <!-- Page control -->
     <div class="page">
-      <div class="content">
+      <div class="content-left">
+        <div class="text text-rows">
+          Showing {{ _get_range_start(page, rows) }} to {{ _get_range_end(page, rows) }} of {{ rows }}
+        </div>
+      </div>
+      <div class="content-right">
         <div class="text text-rows">Rows per page:</div>
         <jviz-select id="entries" width="60px">
           <option value="10">10</option>
@@ -271,7 +281,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Table public api
   jviz_table.properties.selectable = { type: Boolean, reflectToAttribute: true, value: false };
   jviz_table.properties.header = { type: String, reflectToAttribute: true };
-  jviz_table.properties.default = { type: String, value: '' };
+  jviz_table.properties.default = { type: String, reflectToAttribute: true, value: '' };
   jviz_table.properties.rows = { type: Number, value: 0 };
   jviz_table.properties.pageSize = { type: Number, reflectToAttribute: true, value: 5, observer: '_update_page_size' };
   jviz_table.properties.page = { type: Number, reflectToAttribute: true, value: 1, observer: '_update_page' };
@@ -927,6 +937,20 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   {
     //Open the last page
     this.page = this._page_end;
+  };
+
+  //Get the start range value
+  jviz_table._get_range_start = function()
+  {
+    //Return the start range value
+    return (this.page - 1) * this.pageSize + 1;
+  };
+
+  //Get the end range
+  jviz_table._get_range_end = function()
+  {
+    //Return the end range value
+    return this.page * this.pageSize;
   };
 
   //Register the table element
