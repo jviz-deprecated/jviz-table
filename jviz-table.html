@@ -289,8 +289,6 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table.properties._keys_selected = { type: Array, value: [] };
   jviz_table.properties._keys_filtered = { type: Array, value: [] };
   jviz_table.properties._keys_sorted = { type: Array, value: [] };
-  jviz_table.properties._row_start = { type: Number, value: 0 };
-  jviz_table.properties._row_end = { type: Number, value: 0 };
   jviz_table.properties._page_start = { type: Number, value: 1 };
   jviz_table.properties._page_end = { type: Number, value: 1 };
 
@@ -502,6 +500,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   //Display a subset of data
   jviz_table.display = function(start, end)
   {
+    /*
     //Check for no start position
     if(typeof start !== 'number'){ var start = 0; }
 
@@ -519,6 +518,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
 
     //Save the end value
     this._row_end = Math.max(start, end);
+    */
 
     //Display the data
     //this._display();
