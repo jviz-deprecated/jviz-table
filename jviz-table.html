@@ -440,13 +440,30 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._update_page = function()
   {
     //Get the start position
-    var start = (this.page - 1) * this.pageSize;
+    //var start = (this.page - 1) * this.pageSize;
 
     //Get the end position
-    var end = (this.page) * this.pageSize - 1;
+    //var end = (this.page) * this.pageSize - 1;
 
     //Display the data
-    this.display(start, end);
+    //this.display(start, end);
+
+    //Draw the table
+    this.reload();
+  };
+
+  //Get the start range value
+  jviz_table._get_range_start = function()
+  {
+    //Return the start range value
+    return (this.page - 1) * this.pageSize + 1;
+  };
+
+  //Get the end range
+  jviz_table._get_range_end = function()
+  {
+    //Return the end range value
+    return Math.min(this.rows, this.page * this.pageSize);
   };
 
   //Get a data value
@@ -504,11 +521,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     this._row_end = Math.max(start, end);
 
     //Display the data
-    this._display();
+    //this._display();
+    this.reload();
   };
 
-  //Display the data
-  jviz_table._display = function()
+  //Reload the table
+  jviz_table.reload = function()
   {
     //Check if data exists
     if(typeof this.data !== 'object'){ return; }
@@ -520,10 +538,12 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     if(this.data.length > 0)
     {
       //Get the computed start position
-      var start = Math.max(0, this._row_start);
+      //var start = Math.max(0, this._row_start);
+      var start = this._get_range_start() - 1;
 
       //Get the computed end position
-      var end = Math.min(this.rows - 1, this._row_end);
+      //var end = Math.min(this.rows - 1, this._row_end);
+      var end = this._get_range_end() - 1;
 
       //Display in console (debug)
       console.log('Draw ' + start + ' - ' + end);
@@ -663,7 +683,8 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
     this._images_sort();
 
     //Display again the data
-    this._display();
+    //this._display();
+    this.reload();
   };
 
   //Display the sort images
@@ -959,20 +980,6 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   {
     //Open the last page
     this.page = this._page_end;
-  };
-
-  //Get the start range value
-  jviz_table._get_range_start = function()
-  {
-    //Return the start range value
-    return (this.page - 1) * this.pageSize + 1;
-  };
-
-  //Get the end range
-  jviz_table._get_range_end = function()
-  {
-    //Return the end range value
-    return Math.min(this.rows, this.page * this.pageSize);
   };
 
   //Register the table element
