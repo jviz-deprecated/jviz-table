@@ -950,7 +950,7 @@ The Jviz Project is under the MIT License. See https://github.com/jviz/jviz/blob
   jviz_table._get_range_end = function()
   {
     //Return the end range value
-    return this.page * this.pageSize;
+    return Math.min(this.rows, this.page * this.pageSize);
   };
 
   //Register the table element
